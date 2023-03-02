@@ -1,0 +1,70 @@
+.calendar-container {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  gap: 4px;
+  justify-self: center;
+  align-self: center;
+  padding: 4px;
+  width: 100%;
+}
+
+.grid-center {
+  justify-self: center;
+  align-self: center;
+}
+
+.prev-month,
+.next-month {
+  grid-column: span 1;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-small);
+  text-align: center;
+  transition: background linear 0.2s;
+  cursor: pointer;
+}
+
+.prev-month:hover,
+.next-month:hover {
+  background-color: var(--bg-color-table);
+}
+
+.month-name {
+  grid-column: span 5;
+}
+
+.day-short {
+  font-weight: 300;
+  opacity: 0.6;
+}
+
+.day-off {
+  font-weight: 500;
+  color: rgb(59, 59, 255);
+}
+
+.day-holiday {
+  font-weight: 500;
+  color: rgb(255, 0, 0);
+}
+
+.day-num {
+  justify-self: center;
+  align-self: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-color-table-01);
+  border-radius: var(--radius-small);
+  text-align: center;
+  transition: background linear 0.2s;
+  cursor: pointer;
+}
+
+.day-num:hover {
+  background-color: var(--bg-color-dark-hover);
+}
+
+.empty {
+  background-color: transparent;
+}

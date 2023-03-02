@@ -1,13 +1,17 @@
 import React from 'react';
+import { Header } from './componets/Container/Header/Header';
+import { Container } from './componets/Container/Container';
+import { Aside } from './componets/Container/Aside/Aside';
+import { Main } from './componets/Container/Main/Mian';
+
 import './App.css';
 
-
-function App() {
+export const App = () => {
   return (
-    <div className='App'>
-      <h1>New App</h1>
-    </div>
+    <Container>
+      <Header />
+      <Aside />
+      <Main />
+    </Container>
   );
-}
-
-export default App;
+};

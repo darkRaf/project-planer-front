@@ -1,0 +1,22 @@
+.card-main {
+  padding: 0.3em 0.3em 0.3em 0.6em;
+  margin-right: 0.3rem;
+  height: calc(100% - 50px);
+
+  overflow-y: auto;
+  z-index: 1;
+}
+
+.card-main::-webkit-scrollbar {
+  width: 8px;
+}
+
+.card-main::-webkit-scrollbar-track {
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.card-main::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.4);
+}

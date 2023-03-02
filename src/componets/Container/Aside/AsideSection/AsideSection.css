@@ -1,0 +1,20 @@
+.aside-section {
+  padding: 10px;
+
+  border-bottom: 1px solid var(--color-line);
+}
+
+.aside-section:nth-child(2) {
+  margin-top: 20px;
+}
+
+.asside-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 5px 0;
+  padding: 3px;
+  border-radius: var(--radius-small);
+
+  transition: background linear 0.2s;
+}
