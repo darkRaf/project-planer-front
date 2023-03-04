@@ -1,17 +1,19 @@
 .task {
   position: relative;
+  display: flex;
+  flex-direction: row;
   margin-bottom: 0.6rem;
   padding: 0.6rem 0.4rem;
   width: 100%;
   min-height: 2rem;
 
-  background-color: rgb(var(--base-text-color-l));
+  background-color: var(--bg-color-task);
   border-radius: var(--radius-small);
   box-shadow: var(--shadow-card);
 
   transition: box-shadow linear 0.2s, background linear 0.2s;
   cursor: pointer;
-  z-index: 10;
+  z-index: 0;
 }
 
 .task:last-child {
@@ -19,7 +21,7 @@
 }
 
 .task:hover {
-  background-color: rgb(var(--bg-color-lightgray));
+  background-color: var(--bg-color-task-hover);
   box-shadow: var(--shadow-card-up);
 }
 
@@ -46,41 +48,14 @@
 .task-main {
   display: flex;
   flex-direction: row;
-}
+  padding-left: 10px;
+  width: 100%;
 
-.labels-container {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-}
-
-.label {
-  flex: 1;
-  display: block;
-  margin-right: 6px;
-  margin-bottom: 3px;
-  width: 6px;
-  min-height: 10px;
-  border-radius: var(--radius-small);
-}
-
-.high-priority {
-  background-color: var(--high-priority);
-}
-
-.medium-priority {
-  background-color: var(--medium-priority);
-}
-
-.low-priority {
-  background-color: var(--low-priority);
-}
-
-.undefind-priority{
-  background-color: var(--undefind-priority);
 }
 
 .task-title {
+  margin-left: 10px;
+  width: 100%;
   font-weight: 300;
   font-size: 1rem;
 }

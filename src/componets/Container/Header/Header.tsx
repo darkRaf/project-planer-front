@@ -1,7 +1,7 @@
 import React from "react";
 
 import './Header.css';
-import avatar from '../../../assets/img/avatars/avatar-1.svg';
+const avatar = './images/avatars/avatar-1.svg';
 
 export const Header = () => {
   return (

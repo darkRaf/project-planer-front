@@ -4,7 +4,7 @@
 
   margin: 10px 0 10px 15px;
   width: 300px;
-  max-height: calc(100vh - var(--height-header) - 2px);
+  max-height: calc(100vh - var(--height-header) - 20px);
 
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);

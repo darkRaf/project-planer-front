@@ -1,20 +1,19 @@
 import React from 'react';
+import { TaskEntity } from 'src/types/taskEntyti';
+import { Label } from './Label/Label';
+
 import './Task.css';
+const penUrl = './images/svg/pen.svg';
 
-import pen from '../../../../../../assets/img/svg/pen.svg';
-
-export const Task = () => {
+export const Task = ({ labels, title, body }: TaskEntity) => {
   return (
     <div className='task'>
       <div className='task-pen'>
-        <img src={pen} alt='' />
+        <img src={penUrl} alt='Pen' />
       </div>
+      <Label labels={labels} />
       <div className='task-main'>
-        <div className='labels-container'>
-          <span className='label high-priority'></span>
-          <span className='label medium-priority'></span>
-        </div>
-        <h3 className='task-title'>Nazwa tablicy Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae magni blanditiis optio officia deleniti doloremque odit quos est et inventore.</h3>
+        <h3 className='task-title'>{title}</h3>
       </div>
     </div>
   );
