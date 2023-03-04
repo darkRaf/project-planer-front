@@ -1,17 +1,22 @@
 import React from 'react';
+import { CardEntity } from 'src/types/cardEntity';
 import { Card } from './Card/Card';
-import { TableEntity } from 'src/types/tableEntity';
 
 import './Main.css';
-import data from '../../../data/tablesData.json';
 
-export const Main = () => {
-  const tableData = data as TableEntity;
+type MainProps = {
+  cards: CardEntity[];
+};
+
+export const Main = (props: MainProps) => {
+  const cards = props.cards;
 
   return (
     <div className='main-container'>
-      {tableData.cards.map((card) => <Card key={card.id} card={card}/>)}
-      <Card card={null}/>
+      {cards.map((card) => (
+        <Card key={card.id} card={card} />
+      ))}
+      <Card card={null} />
     </div>
   );
 };
