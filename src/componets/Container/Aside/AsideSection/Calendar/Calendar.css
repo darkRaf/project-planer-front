@@ -9,6 +9,31 @@
   width: 100%;
 }
 
+.aside-min .calendar-container {
+  display: none;
+}
+
+.calendar-to-day {
+  display: none;
+}
+
+.aside-min .calendar-to-day {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  background-color: var(--bg-color-table-01);
+  border-radius: var(--radius-small);
+  transition: background linear 0.2s;
+  cursor: pointer;
+}
+
+.calendar-to-day:hover {
+  background-color: transparent;
+}
+
 .grid-center {
   justify-self: center;
   align-self: center;
@@ -50,19 +75,22 @@
 }
 
 .day-num {
-  justify-self: center;
+  /* justify-self: center;
   align-self: center;
   width: 100%;
-  height: 100%;
+  height: 100%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--bg-color-table-01);
   border-radius: var(--radius-small);
-  text-align: center;
-  transition: background linear 0.2s;
+  transition: background linear 0.2s, transform linear 0.2s;
   cursor: pointer;
 }
 
 .day-num:hover {
-  background-color: var(--bg-color-dark-hover);
+  background-color: var(--mask-color-dark02);
+  transform: scale(1.25);
 }
 
 .empty {

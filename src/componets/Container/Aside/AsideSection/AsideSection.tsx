@@ -3,14 +3,20 @@ import React, { ReactNode } from 'react';
 import './AsideSection.css';
 
 type AsideSectionProps = {
-  title?: string | null;
   children: ReactNode;
+  title?: string | null;
+  icoUrl?: string;
 };
 
-export const AsideSection = ({ children, title }: AsideSectionProps) => {
+export const AsideSection = ({
+  children,
+  title,
+  icoUrl,
+}: AsideSectionProps) => {
   return (
     <div className='aside-section'>
-      {title ? <div className='asside-title'>{title}</div> : null}
+      {icoUrl ? <img src={icoUrl} alt='' className='aside-svg'/> : null}
+      {title ? <div className='aside-title'>{title}</div> : null}
       {children}
     </div>
   );

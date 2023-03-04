@@ -1,14 +1,14 @@
 import React from 'react';
 
 import './Weather.css';
-import weatherIco from '../../../../../assets/img/svg/cloud-sun.svg';
+const weatherIcoUrl = './images/svg/cloud-sun.svg';
 
 export const Weather = () => {
   return (
     <>
-      <div className='asside-row'>
+      <div className='aside-row'>
         <div className='weather-container'>
-          <img src={weatherIco} alt='' />
+          <img src={weatherIcoUrl} alt='' />
           <div className='weather-data'>
             <div className='weather-tem'>
               14 <span>℃</span>

@@ -22,17 +22,21 @@
   --bg-color-table-01: rgba(255, 255, 255, 0.1);
   --bg-color-table: rgba(255, 255, 255, 0.2);
   --bg-color-table-hover: rgba(255, 255, 255, 0.4);
+  --bg-color-task: rgb(252, 255, 221);
+  --bg-color-task-hover: rgb(249, 255, 184);
   --bg-color-dark-hover: rgba(0, 0, 0, 0.2);
+  --mask-color-dark01: rgba(0, 0, 0, 0.05);
+  --mask-color-dark02: rgba(0, 0, 0, 0.2);
 
-  --high-priority: red;
-  --medium-priority: goldenrod;
-  --low-priority: green;
-  --undefind-priority: blue;
+  --high-priority: rgb(255, 38, 38);
+  --medium-priority: rgb(255, 255, 25);
+  --low-priority: rgb(50, 201, 50);
+  --undefind-priority: rgb(22, 84, 255);
 
   --shadow: 0 0 16px rgba(0, 0, 0, 0.1), 0 0 8px rgba(0, 0, 0, 0.1);
   --shadow-up: 0 0 14px rgba(0, 0, 0, 0.2), 0 0 12px rgba(0, 0, 0, 0.2);
   --shadow-card: 2px 2px 6px rgba(0, 0, 0, 0.2), 2px 2px 3px rgba(0, 0, 0, 0.2);
-  --shadow-card-up: 2px 2px 16px rgba(0, 0, 0, 0.4),
+  --shadow-card-up: 4px 4px 8px rgba(0, 0, 0, 0.2),
     2px 2px 8px rgba(0, 0, 0, 0.4);
 
   --aside-gradient: linear-gradient(
@@ -41,8 +45,8 @@
     rgba(83, 120, 149, 0.7) 100%
   );
 
-  --radius-small: 3px;
-  --radius-medium: 5px;
+  --radius-small: 4px;
+  --radius-medium: 6px;
   --radius-large: 8px;
 }
 body {
@@ -59,4 +63,8 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.svg-color {
+  fill: rgb(var(--base-text-color-l))
 }

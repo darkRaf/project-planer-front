@@ -1,38 +1,42 @@
 .aside {
   position: relative;
+  width: 280px;
   height: 100%;
-
   color: var(--text-color-light);
   background: var(--aside-gradient);
   backdrop-filter: blur(10px);
   border-right: 1px solid var(--color-line);
   box-shadow: var(--shadow);
-
   font-size: 1rem;
   font-weight: 300;
+  overflow: hidden;
+  transition: width linear 0.2s;
+}
+
+.aside-min {
+  width: 60px;
 }
 
 .aside-btn-show {
   position: absolute;
   top: 10px;
   right: 5px;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   padding: 6px;
-
   background-color: transparent;
   border: 1px solid transparent;
   border-radius: var(--radius-small);
   line-height: 1rem;
-
   transform: rotate(180deg);
   transition: transform linear 0.2s, background linear 0.2s,
     border-color linear 0.2s;
-
   cursor: pointer;
+}
+
+.aside-min .aside-btn-show {
+  transform: rotate(0deg);
 }
 
 .aside-btn-show:hover {
@@ -40,26 +44,26 @@
   border: 1px solid var(--color-line);
 }
 
-.asside-row {
+.aside-row {
   display: flex;
   flex-direction: row;
   align-items: center;
   margin: 5px 0;
   padding: 3px;
   border-radius: var(--radius-small);
-
   transition: background linear 0.2s;
+  cursor: pointer;
 }
 
-.asside-row:hover {
-  background-color: var(--bg-color-dark-hover);
+.aside-row:hover {
+  background-color: var(--mask-color-dark02);
 }
 
-.asside-row:hover .asside-img {
+.aside-row:hover .aside-img {
   filter: grayscale(0);
 }
 
-.asside-ico {
+.aside-ico {
   display: flex;
   flex-direction: row;
   align-content: center;
@@ -74,16 +78,17 @@
   letter-spacing: 2px;
 }
 
-.asside-img {
+.aside-img {
   width: 100%;
   height: 100%;
 
   background-position: center;
   background-size: cover;
   filter: grayscale(1);
+  cursor: pointer;
 }
 
-.asside-text {
+.aside-text {
   display: inline-block;
   padding-left: 10px;
   width: calc(100% - 70px);
@@ -92,9 +97,13 @@
   white-space: nowrap;
 }
 
-.active .asside-img {
+.active .aside-img {
   border: 1px solid rgb(var(--color-green));
   box-shadow: 0 0 8px rgba(var(--color-green), 0.3),
     0 0 4px rgba(var(--color-green), 0.3);
   filter: grayscale(0);
+}
+
+.aside-min .aside-text {
+  display: none;
 }
