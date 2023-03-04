@@ -11,7 +11,8 @@ export type Priorities = "high" | "medium" | "low" | "undefined";
 
 export interface TaskEntity {
   id: string;
-  labels: Priorities[];
   title: string;
+  labels: Priorities[];
+  addedAt: string;
   body: TaskBodyEntity;
 }
