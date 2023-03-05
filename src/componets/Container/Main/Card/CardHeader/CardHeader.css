@@ -29,4 +29,15 @@
 .card-btn:hover {
   background-color: var(--bg-color-table-hover);
   cursor: pointer;
-} 
+}
+
+.card-input {
+  width: 100%;
+  background-color: var(--mask-color-dark01);
+  border-radius: var(--radius-small);
+  border: 0px;
+  outline: none;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-style: italic;
+}
