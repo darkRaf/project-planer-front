@@ -1,0 +1,15 @@
+.login-input {
+  margin-bottom: 50px;
+  width: 100%;
+  color: rgb(var(--base-text-color-l));
+  background-color: transparent;
+  border: 0px;
+  border-bottom: 1px solid rgb(var(--base-text-color-l));
+  font-size: 1.4rem;
+  outline: none;
+}
+
+.login-label {
+  display: block;
+  padding-bottom: 10px;
+}

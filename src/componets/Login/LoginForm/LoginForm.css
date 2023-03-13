@@ -1,0 +1,33 @@
+.form {
+  padding: 50px;
+  width: 500px;
+  min-height: 300px;
+
+  background-color: var(--bg-color-table-01);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-large);
+  backdrop-filter: blur(20px);
+
+  box-shadow: var(--shadow);
+}
+
+.login-title {
+  margin: 70px 0;
+  color: rgb(var(--color-green));
+  font-size: 60px;
+}
+
+.form-register {
+  display: block;
+  margin-top: 30px;
+  color: rgb(0, 150, 250);
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.form-register:hover {
+  color: rgb(58, 176, 255);
+  transition: color linear 0.2s;
+}

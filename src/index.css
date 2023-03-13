@@ -15,6 +15,7 @@
   --base-text-color-d: 22, 22, 22;
   --base--bg-color: 4, 16, 32;
   --color-green: 0, 255, 0;
+  --color-green-dark: 6, 192, 6;
   --color-500: 4, 16, 31;
   --color-300: 9, 32, 63;
 
@@ -66,5 +67,5 @@ code {
 }
 
 .svg-color {
-  fill: rgb(var(--base-text-color-l))
+  fill: rgb(var(--base-text-color-l));
 }
