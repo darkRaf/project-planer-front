@@ -1,5 +1,0 @@
-.container {
-  display: grid;
-  grid-template-columns: minmax(60px, 280px) auto;
-  grid-template-rows: var(--height-header) calc(100vh - var(--height-header));
-}

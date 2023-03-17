@@ -1,17 +1,23 @@
 import React from 'react';
-import { Header } from './componets/Container/Header/Header';
-import { Container } from './componets/Container/Container';
-import { Aside } from './componets/Container/Aside/Aside';
-import { Main } from './componets/Container/Main/Mian';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { Login } from './componets/Login/Login';
+import { Register } from './componets/Register/Register';
+import { Home } from './componets/Home/Home';
 
 import './App.css';
 
+
 export const App = () => {
   return (
-    <Container>
-      <Header />
-      <Aside />
-      <Main />
-    </Container>
+    <div className='App'>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/test" element={<Navigate to={"/login"} />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 };
