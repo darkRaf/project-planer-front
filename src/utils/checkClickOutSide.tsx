@@ -2,7 +2,7 @@ import { RefObject } from 'react';
 
 export const checkClickOutSide = (
   e: MouseEvent,
-  ref: RefObject<HTMLElement>
+  ref: RefObject<HTMLElement>,
 ): boolean => {
   const { target } = e;
 
