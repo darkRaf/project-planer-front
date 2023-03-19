@@ -1,10 +1,7 @@
 import { HOST } from '../settings/settings';
+import { LoginResponse } from 'types';
 
 type FetchMethod = 'GET' | 'POST' | 'DELETE' | 'UPDATE' | 'PUT' | undefined;
-
-export type ResponseToken = {
-  accessToken: string;
-}
 
 class FetchApi {
   private host: string;
@@ -43,20 +40,20 @@ class FetchApi {
 
     const url = `${this.host}${this.ednpoint}`;
     const res = await fetch(url, this.settings);
+    const jsonData = await res.json();
 
     if (res.ok) {
       this.settings = undefined;
       this.body = null;
 
-      return res.json();
+      return jsonData
     }
-
-    throw new Error();
+    
+    throw new Error(jsonData.message);
   };
 
-  refreshToken = async (): Promise<void> => {
-    const res = await this.get('/refresh-token') as ResponseToken;
-    this.token = res.accessToken;
+  refreshToken = async (): Promise<LoginResponse> => {
+    return await this.get('/refresh-token') as LoginResponse;
   };
 
   setToken = (token: string): void => {
