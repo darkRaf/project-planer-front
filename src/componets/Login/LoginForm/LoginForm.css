@@ -1,0 +1,39 @@
+.form {
+  padding: 50px;
+
+  background-color: var(--bg-color-table-01);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-large);
+  backdrop-filter: blur(20px);
+
+  box-shadow: var(--shadow);
+}
+
+.signup {
+  display: block;
+  margin-top: 30px;
+  font-size: 1rem;
+}
+
+.link-to-register {
+  padding-left: 10px;
+  color: rgb(10, 36, 121);
+  text-decoration: none;
+}
+
+.link-to-register:hover {
+  color: rgb(44, 92, 196);
+  transition: color linear 0.2s;
+}
+
+.error-box {
+  padding: 10px;
+  margin-bottom: 10px;
+  color: rgb(58, 18, 18);
+  background-color: rgb(216, 105, 105);
+  border: 1px solid rgb(124, 34, 34);
+  border-radius: var(--radius-small);
+  box-shadow: var(--shadow);
+}

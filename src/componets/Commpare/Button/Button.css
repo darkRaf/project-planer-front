@@ -1,0 +1,20 @@
+.btn-form {
+  padding: 10px 30px;
+  background-color: rgb(var(--color-green));
+  border: 0px;
+  border-radius: var(--radius-small);
+  box-shadow: var(--shadow);
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.form .btn-form {
+  width: 100%;
+}
+
+.btn-form:hover {
+  background-color: rgb(var(--color-green-dark));
+  box-shadow: var(--shadow-up);
+  transition: background-color linear 0.2s;
+}
