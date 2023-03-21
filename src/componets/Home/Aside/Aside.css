@@ -1,0 +1,108 @@
+.aside {
+  position: relative;
+  width: 280px;
+  height: 100%;
+  color: var(--text-color-light);
+  background: var(--aside-gradient);
+  backdrop-filter: blur(10px);
+  border-right: 1px solid var(--color-line);
+  box-shadow: var(--shadow);
+  font-size: 1rem;
+  font-weight: 300;
+  overflow: hidden;
+  overflow-y: auto;
+  transition: width linear 0.2s;
+}
+
+.aside-min {
+  width: 60px;
+}
+
+.aside-btn-show {
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-small);
+  line-height: 1rem;
+  transform: rotate(180deg);
+  transition: transform linear 0.2s, background linear 0.2s, border-color linear 0.2s;
+  cursor: pointer;
+}
+
+.aside-min .aside-btn-show {
+  transform: rotate(0deg);
+}
+
+.aside-btn-show:hover {
+  background-color: var(--bg-color-dark-hover);
+  border: 1px solid var(--color-line);
+}
+
+.aside-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 5px 0;
+  padding: 3px;
+  border-radius: var(--radius-small);
+  transition: background linear 0.2s;
+}
+
+.aside-row:hover {
+  background-color: var(--mask-color-dark02);
+  cursor: pointer;
+}
+
+.no-hover:hover {
+  background-color: transparent;
+  cursor: default;
+}
+
+.aside-text {
+  display: inline-block;
+  padding-left: 10px;
+  width: calc(100% - 70px);
+  overflow: hidden;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.aside-min .aside-text {
+  display: none;
+}
+
+.aside-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 5px 0;
+  padding: 3px;
+  border-radius: var(--radius-small);
+  transition: background linear 0.2s;
+}
+
+.aside-svg {
+  display: none;
+  margin-left: 5px;
+  max-width: 40px;
+  width: 50%;
+}
+
+.aside-min .aside-svg {
+  display: block;
+}
+
+.aside-min .aside-title {
+  display: none;
+}
+
+.aside-ico-color {
+  fill: red;
+}
