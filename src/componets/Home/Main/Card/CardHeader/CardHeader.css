@@ -1,0 +1,44 @@
+.card-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0.6em 0.5em 0.6em 0.8em;
+}
+
+.card-title {
+  width: 100%;
+  font-size: 1.1rem;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.card-header-dots {
+  display: block;
+  height: 100%;
+  padding: 0 0.5em 0.5em 0.5em;
+
+  border-radius: var(--radius-small);
+  font-weight: bold;
+  text-align: end;
+  letter-spacing: 3px;
+  transition: background linear 0.2s;
+}
+
+.card-header-dots:hover,
+.card-btn:hover {
+  background-color: var(--bg-color-table-hover);
+  cursor: pointer;
+}
+
+.card-input {
+  width: 100%;
+  background-color: var(--mask-color-dark01);
+  border-radius: var(--radius-small);
+  border: 0px;
+  outline: none;
+  font-size: 1.1rem;
+  font-weight: 700;
+  resize: horizontal;
+  overflow: hidden;
+}
