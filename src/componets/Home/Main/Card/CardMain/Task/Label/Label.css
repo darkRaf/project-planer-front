@@ -1,0 +1,57 @@
+.labels-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 20px;
+  height: 100%;
+  flex-direction: column;
+  flex-wrap: wrap;
+  background-color: var(--mask-color-dark01);
+  border-top-left-radius: var(--radius-small);
+  border-bottom-left-radius: var(--radius-small);
+}
+
+.label {
+  position: relative;
+  flex: 1;
+  display: block;
+  margin-right: 6px;
+  width: 50%;
+  min-height: 10px;
+  border-top-left-radius: var(--radius-small);
+  border-bottom-left-radius: var(--radius-small);
+}
+
+.high-priority,
+.high-priority::before {
+  background-color: var(--high-priority);
+}
+
+.medium-priority,
+.medium-priority::before {
+  background-color: var(--medium-priority);
+}
+
+.low-priority,
+.low-priority::before {
+  background-color: var(--low-priority);
+}
+
+.undefind-priority,
+.undefind-priority::before {
+  background-color: var(--undefind-priority);
+}
+
+.high-priority::before,
+.medium-priority::before,
+.low-priority::before,
+.undefind-priority::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 100%;
+  border-top-left-radius: var(--radius-small);
+  border-bottom-left-radius: var(--radius-small);
+  opacity: 0.4;
+}
