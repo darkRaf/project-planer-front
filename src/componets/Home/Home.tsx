@@ -1,22 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Aside } from './Aside/Aside';
 import { Container } from './Container/Container';
 import { Header } from './Header/Header';
 import { Main } from './Main/Mian';
-import { ProjectResponseData } from 'types';
+import { ProjectContext } from '../../Contexts/ProjectContext/ProjectContext';
 
 import './Home.css';
 
-import data from '../../data/tablesData.json';
-
 const Home = () => {
-  const tableData = data as ProjectResponseData;
+  const { userId, cards, cardsId, id, title } = useContext(ProjectContext);
 
   return (
     <Container>
-      <Header id={tableData.id} title={tableData.title} />
+      <Header id={id} title={title} />
       <Aside />
-      <Main cards={tableData.cards} />
+      <Main cards={cards} />
     </Container>
   );
 };

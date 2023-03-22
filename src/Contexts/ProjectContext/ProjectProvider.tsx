@@ -6,7 +6,6 @@ import { createNewTask } from './createNewTask';
 import { fetchApi } from '../../utils/featchAPI';
 
 import data from '../../data/tablesData.json';
-import { createNewCard } from './createNewCard';
 
 type ProjectProviderProps = {
   children: ReactNode;
@@ -18,21 +17,24 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
 
   const tableData = data as ProjectResponseData;
 
-  const onAddCard = useCallback((id: string | null) => {
+  const addCard = useCallback(() => {
     setProject(
       produce((draft) => {
-        draft.cards.push(createNewCard());
+        // draft.cards.push();
       }),
     );
   }, []);
 
-  const onAddTask = useCallback((id: string | null) => {
+  const setTask = useCallback((idCard: string, titleTask: string) => {
     setProject(
       produce((draft) => {
-        const card = draft.cards.find((card) => card.id === id);
-        card?.tasks.push(createNewTask());
+        const card = draft.cards.find((card) => card.id === idCard);
+        card?.tasks.push(createNewTask(titleTask));
       }),
     );
+
+    //TODO: zapisac nowy task w DB
+
   }, []);
 
   const getProjectFromDB = () => {
@@ -47,8 +49,8 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
 
   const value = {
     ...project,
-    onAddTask,
-    onAddCard,
+    addCard,
+    setTask,
   };
 
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>;

@@ -1,64 +1,23 @@
-import React, { CSSProperties, KeyboardEvent, useEffect, useRef, useState, ChangeEvent } from 'react';
+import React from 'react';
 import { TaskEntity } from 'types';
 import { Label } from './Label/Label';
-
-import { checkClickOutSide } from '../../../../../../utils/checkClickOutSide';
-import { changeHeightTextArea } from '../../../../../../utils/changeHeightTextArea';
+import DriveFileRenameOutlineRoundedIcon from '@mui/icons-material/DriveFileRenameOutlineRounded';
 
 import './Task.css';
 
-const penUrl = './images/svg/pen.svg';
-
-export const Task = ({ labels, title, body }: TaskEntity) => {
-  const [newTitle, setNewTitle] = useState(title);
-  const [changeTitle, setChangeTitle] = useState(false);
-
-  const areaRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    changeTitle && areaRef.current?.focus();
-
-    document.addEventListener('mousedown', mousedownHandle);
-
-    return () => {
-      document.removeEventListener('mousedown', mousedownHandle);
-    };
-  });
-
-  const styles: CSSProperties = {
-    display: 'none',
+export const Task = ({ id, labels, title }: TaskEntity) => {
+  const showModalEditTask = () => {
+    console.log('show modal edit task');
   };
-
-  const mousedownHandle = (e: MouseEvent) => {
-    setChangeTitle(checkClickOutSide(e, areaRef));
-    // TODO: Zapisz zmianę w DB.
-  };
-
-  const onKeyUpHandle = (e: KeyboardEvent): void => {
-    e.key === 'Enter' && setChangeTitle(false);
-    // TODO: Zapisz zmianę w DB.
-  };
-
-  const onChangeHandle = (e: ChangeEvent<HTMLTextAreaElement>) => changeHeightTextArea(e, setNewTitle);
 
   return (
-    <div className="task" onClick={() => setChangeTitle(true)}>
-      <div className="task-pen">
-        <img src={penUrl} alt="Pen" />
+    <div id={id} className="task">
+      <div className="task-pen" onClick={showModalEditTask}>
+        <DriveFileRenameOutlineRoundedIcon />
       </div>
       <Label labels={labels} />
       <div className="task-main">
-        <textarea
-          ref={areaRef}
-          className="task-input"
-          value={newTitle}
-          onChange={onChangeHandle}
-          onKeyUp={(e) => onKeyUpHandle(e)}
-          style={!changeTitle ? styles : undefined}
-        />
-        <h3 className="task-title" style={changeTitle ? styles : undefined}>
-          {newTitle}
-        </h3>
+        <h3 className="task-title">{title}</h3>
       </div>
     </div>
   );

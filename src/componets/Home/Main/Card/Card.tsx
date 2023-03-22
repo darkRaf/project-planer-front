@@ -14,17 +14,18 @@ export const Card = (props: CardProps) => {
   if (props.card === null) {
     return (
       <div className="card">
-        <CardFooter />
+        <CardFooter idCard={''} isTask={false}/>
       </div>
     );
   }
 
-  const { title, tasks } = props.card;
+  const { id, title, tasks } = props.card;
+
   return (
     <div className="card">
       <CardHeader title={title} />
       <CardMain tasks={tasks} />
-      <CardFooter />
+      <CardFooter idCard={id} isTask={true} />
     </div>
   );
 };

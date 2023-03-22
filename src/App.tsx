@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Loader } from './componets/Commpare/Loader/Loader';
 import { ProtectedRoute } from './componets/ProtectedRoute/ProtectedRoute';
 import { UserProvider } from './Contexts/UserContext/UserProvider';
+import { ProjectProvider } from './Contexts/ProjectContext/ProjectProvider';
 
 import './App.css';
 
@@ -20,7 +21,9 @@ export const App = () => {
               path="/"
               element={
                 <ProtectedRoute>
-                  <Home />
+                  <ProjectProvider>
+                    <Home />
+                  </ProjectProvider>
                 </ProtectedRoute>
               }
             />

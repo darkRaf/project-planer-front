@@ -8,7 +8,6 @@
 .card-btn-add {
   padding: 0.6em;
   width: 100%;
-  /* text-shadow: 0 0 3px var(--bg-color-white); */
   background-color: transparent;
   color: rgb(92, 92, 92);
   border: 0;
@@ -16,7 +15,6 @@
   outline: none;
   font-size: 1rem;
   font-weight: 700;
-
   transition: background linear 0.2s;
 }
 
@@ -24,4 +22,15 @@
   background-color: var(--bg-color-dark-hover);
   color: rgb(var(--base-text-color-d));
   cursor: pointer;
+}
+
+.textarea-add-task {
+  margin-right: 0.4em;
+  padding: 0.6em;
+  width: 100%;
+  border: 0px;
+  border-radius: var(--radius-medium);
+  outline: none;
+  font-size: 1rem;
+  resize: vertical;
 }

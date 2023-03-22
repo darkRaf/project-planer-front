@@ -5,12 +5,10 @@
   margin-bottom: 0.6rem;
   padding: 0.6rem 0.4rem;
   width: 100%;
-  min-height: 2rem;
-
+  min-height: 43px;
   background-color: var(--bg-color-task);
   border-radius: var(--radius-small);
   box-shadow: var(--shadow-card);
-
   transition: box-shadow linear 0.2s, background linear 0.2s;
   cursor: pointer;
   z-index: 0;
@@ -32,7 +30,6 @@
   top: 3px;
   right: 6px;
   border-radius: var(--radius-small);
-
   transition: background linear 0.2s;
 }
 
@@ -50,20 +47,11 @@
   flex-direction: row;
   padding-left: 10px;
   width: 100%;
-
 }
 
-.task-title,
-.task-input {
+.task-title {
   margin-left: 10px;
   width: 100%;
   font-weight: 400;
   font-size: 1rem;
-}
-
-.task-input {
-  width: calc(100% - 30px);
-  background-color: transparent;
-  border: 0px;
-  outline: none;
 }
