@@ -17,7 +17,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
 
   const tableData = data as ProjectResponseData;
 
-  const addCard = useCallback(() => {
+  const setCard = useCallback(() => {
     setProject(
       produce((draft) => {
         // draft.cards.push();
@@ -37,6 +37,18 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
 
   }, []);
 
+  const setTitleCard = useCallback((idCard: string, titleCard: string) => {
+    setProject(
+      produce((draft) => {
+        const card = draft.cards.find((card) => card.id === idCard);
+        if (card) card.title = titleCard;
+      }),
+    );
+
+    //TODO: zapisac nowy tytuł karty w DB
+
+  }, []);
+
   const getProjectFromDB = () => {
     console.log('data from db');
     setProject((prev) => ({ ...prev, ...tableData }));
@@ -49,7 +61,8 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
 
   const value = {
     ...project,
-    addCard,
+    setCard,
+    setTitleCard,
     setTask,
   };
 

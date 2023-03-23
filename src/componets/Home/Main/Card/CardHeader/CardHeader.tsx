@@ -1,6 +1,7 @@
-import React, { CSSProperties, KeyboardEvent, useEffect, useRef, useState, ChangeEvent } from 'react';
+import React, { KeyboardEvent, useEffect, useRef, useState, ChangeEvent, useCallback } from 'react';
 import { checkClickOutSide } from '../../../../../utils/checkClickOutSide';
 import { changeHeightTextArea } from '../../../../../utils/changeHeightTextArea';
+import { MAX_CARD_TITLE_LENGTH } from '../../../../../settings/settings';
 
 import './CardHeader.css';
 
@@ -9,51 +10,86 @@ type Props = {
 };
 
 export const CardHeader = (props: Props) => {
-  const [newTitle, setNewTitle] = useState(props.title);
-  const [changeTitle, setChangeTitle] = useState(false);
+  const [titleCard, setTitleCard] = useState(props.title);
+  const [showForm, setShowForm] = useState(false);
+  const [error, setError] = useState(false);
 
   const areaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    changeTitle && areaRef.current?.focus();
-
-    document.addEventListener('mousedown', mousedownHandle);
+    if (showForm) {
+      areaRef.current?.focus();
+      document.addEventListener('mousedown', mousedownHandle);
+    }
 
     return () => {
       document.removeEventListener('mousedown', mousedownHandle);
     };
   });
 
-  const styles: CSSProperties = {
-    display: 'none',
+  const showError = useCallback((msg: string) => {
+    console.log(msg);
+  }, [error]);
+
+  const addTitleCard = () => {
+    // setTask(idCard, textForm)
+    setShowForm(false);
+  };
+
+  const onChangeHandle = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const {value} = e.target;
+    if (value.length > MAX_CARD_TITLE_LENGTH) {
+      if (!error) {
+        setError(true);
+        showError(`Przekroczono ${MAX_CARD_TITLE_LENGTH} znaków!`);
+      }
+    } else {
+      setTitleCard(value);
+      changeHeightTextArea(e);
+    }
   };
 
   const mousedownHandle = (e: MouseEvent) => {
-    setChangeTitle(checkClickOutSide(e, areaRef));
-    // TODO: Zapisz zmianę w DB.
+    if (!checkClickOutSide(e, areaRef)) {
+      if (titleCard.length) {
+        addTitleCard();
+        return;
+      }
+
+      setShowForm(false);
+    }
   };
 
-  const onKeyUpHandle = (e: KeyboardEvent): void => {
-    e.key === 'Enter' && setChangeTitle(false);
-    // TODO: Zapisz zmianę w DB.
-  };
+  const onKeyDownHandle = (e: KeyboardEvent): void => {
+    if (e.code === 'Escape') {
+      setShowForm(false);
+      setTitleCard('');
+      return;
+    }
 
-  const onChangeHandle = (e: ChangeEvent<HTMLTextAreaElement>) => changeHeightTextArea(e, setNewTitle);
+    if (['Enter', 'NumpadEnter'].includes(e.code)) {
+      if (titleCard.length) {
+        addTitleCard();
+        return;
+      }
+
+      setShowForm(false);
+    }
+  };
 
   return (
-    <div className="card-header">
-      <textarea
-        ref={areaRef}
-        className="card-input"
-        value={newTitle}
-        onChange={onChangeHandle}
-        onKeyUp={(e) => onKeyUpHandle(e)}
-        style={!changeTitle ? styles : undefined}
-      />
-      <h2 className="card-title" onClick={() => setChangeTitle(true)} style={changeTitle ? styles : undefined}>
-        {newTitle}
-      </h2>
-
+    <div className="card-header" onClick={() => setShowForm(true)}>
+      {showForm ? (
+        <textarea
+          ref={areaRef}
+          className="card-input"
+          value={titleCard}
+          onChange={onChangeHandle}
+          onKeyDown={onKeyDownHandle}
+        />
+      ) : (
+        <h2 className="card-title">{titleCard}</h2>
+      )}
       <div className="card-header-dots">...</div>
     </div>
   );
