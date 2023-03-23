@@ -37,7 +37,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
 
   }, []);
 
-  const setTitleCard = useCallback((idCard: string, titleCard: string) => {
+  const setNewTitleCard = useCallback((idCard: string, titleCard: string) => {
     setProject(
       produce((draft) => {
         const card = draft.cards.find((card) => card.id === idCard);
@@ -62,7 +62,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
   const value = {
     ...project,
     setCard,
-    setTitleCard,
+    setNewTitleCard,
     setTask,
   };
 

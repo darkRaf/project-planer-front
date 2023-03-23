@@ -23,7 +23,7 @@ export const Card = (props: CardProps) => {
 
   return (
     <div className="card">
-      <CardHeader title={title} />
+      <CardHeader idCard={id} title={title} />
       <CardMain tasks={tasks} />
       <CardFooter idCard={id} isTask={true} />
     </div>

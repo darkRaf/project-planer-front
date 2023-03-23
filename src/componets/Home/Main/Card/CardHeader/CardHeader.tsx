@@ -1,16 +1,20 @@
-import React, { KeyboardEvent, useEffect, useRef, useState, ChangeEvent, useCallback } from 'react';
+import React, { KeyboardEvent, useEffect, useRef, useState, ChangeEvent, useCallback, useContext } from 'react';
 import { checkClickOutSide } from '../../../../../utils/checkClickOutSide';
 import { changeHeightTextArea } from '../../../../../utils/changeHeightTextArea';
 import { MAX_CARD_TITLE_LENGTH } from '../../../../../settings/settings';
+import { ProjectContext } from '../../../../../Contexts/ProjectContext/ProjectContext';
 
 import './CardHeader.css';
 
 type Props = {
+  idCard: string;
   title: string;
 };
 
-export const CardHeader = (props: Props) => {
-  const [titleCard, setTitleCard] = useState(props.title);
+export const CardHeader = ({ idCard, title }: Props) => {
+  const { setNewTitleCard } = useContext(ProjectContext);
+
+  const [titleCard, setTitleCard] = useState(title);
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState(false);
 
@@ -27,17 +31,20 @@ export const CardHeader = (props: Props) => {
     };
   });
 
-  const showError = useCallback((msg: string) => {
-    console.log(msg);
-  }, [error]);
+  const showError = useCallback(
+    (msg: string) => {
+      console.log(msg);
+    },
+    [error],
+  );
 
   const addTitleCard = () => {
-    // setTask(idCard, textForm)
+    setNewTitleCard(idCard, titleCard);
     setShowForm(false);
   };
 
   const onChangeHandle = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const {value} = e.target;
+    const { value } = e.target;
     if (value.length > MAX_CARD_TITLE_LENGTH) {
       if (!error) {
         setError(true);

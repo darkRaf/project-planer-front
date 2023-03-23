@@ -3,7 +3,7 @@ import { ProjectResponseData } from 'types';
 
 export interface ProjectContext extends ProjectResponseData {
   setCard: () => void;
-  setTitleCard: (idCard: string, titleTask: string) => void;
+  setNewTitleCard: (idCard: string, titleTask: string) => void;
   setTask: (idCard: string, titleTask: string) => void;
 }
 
@@ -14,7 +14,7 @@ export const defaultProject: ProjectContext = {
   cardsId: [],
   cards: [],
   setCard: () => {},
-  setTitleCard: () => {},
+  setNewTitleCard: () => {},
   setTask: () => {},
 };
 
