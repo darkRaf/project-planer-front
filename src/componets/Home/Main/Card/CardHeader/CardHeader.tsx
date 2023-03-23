@@ -1,4 +1,13 @@
-import React, { KeyboardEvent, useEffect, useRef, useState, ChangeEvent, useCallback, useContext } from 'react';
+import React, {
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+  ChangeEvent,
+  useCallback,
+  useContext,
+  Dispatch,
+} from 'react';
 import { checkClickOutSide } from '../../../../../utils/checkClickOutSide';
 import { changeHeightTextArea } from '../../../../../utils/changeHeightTextArea';
 import { MAX_CARD_TITLE_LENGTH } from '../../../../../settings/settings';
@@ -9,13 +18,18 @@ import './CardHeader.css';
 type Props = {
   idCard: string;
   title: string;
+  newCard?: boolean;
+  addCard?: (title: string) => void;
+  notAddCard?: Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const CardHeader = ({ idCard, title }: Props) => {
+export const CardHeader = ({ idCard, title, newCard = false, addCard, notAddCard }: Props) => {
   const { setNewTitleCard } = useContext(ProjectContext);
 
   const [titleCard, setTitleCard] = useState(title);
-  const [showForm, setShowForm] = useState(false);
+  const [prevTitleCard, setPrevTitleCard] = useState(title);
+  const [showForm, setShowForm] = useState(newCard);
+  const [isSelect, setIsSelect] = useState(true);
   const [error, setError] = useState(false);
 
   const areaRef = useRef<HTMLTextAreaElement>(null);
@@ -23,7 +37,9 @@ export const CardHeader = ({ idCard, title }: Props) => {
   useEffect(() => {
     if (showForm) {
       areaRef.current?.focus();
+      isSelect && areaRef.current?.select();
       document.addEventListener('mousedown', mousedownHandle);
+      setIsSelect(false);
     }
 
     return () => {
@@ -39,12 +55,19 @@ export const CardHeader = ({ idCard, title }: Props) => {
   );
 
   const addTitleCard = () => {
+    if (showForm) {
+      setPrevTitleCard(titleCard);
+      if (typeof addCard !== 'undefined') addCard(titleCard);
+    }
+
     setNewTitleCard(idCard, titleCard);
     setShowForm(false);
+    setIsSelect(true);
   };
 
   const onChangeHandle = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target;
+
     if (value.length > MAX_CARD_TITLE_LENGTH) {
       if (!error) {
         setError(true);
@@ -57,30 +80,38 @@ export const CardHeader = ({ idCard, title }: Props) => {
   };
 
   const mousedownHandle = (e: MouseEvent) => {
-    if (!checkClickOutSide(e, areaRef)) {
-      if (titleCard.length) {
-        addTitleCard();
-        return;
-      }
+    if (checkClickOutSide(e, areaRef)) return;
 
+    if (titleCard.length) {
+      addTitleCard();
       setShowForm(false);
+      setIsSelect(true);
+      return;
     }
+
+    setShowForm(false);
+    if (typeof notAddCard === 'undefined') return;
+    notAddCard(false);
   };
 
   const onKeyDownHandle = (e: KeyboardEvent): void => {
     if (e.code === 'Escape') {
       setShowForm(false);
-      setTitleCard('');
+      setIsSelect(true);
+      setTitleCard(prevTitleCard);
+
+      if (typeof notAddCard === 'undefined') return;
+      notAddCard(false);
       return;
     }
 
     if (['Enter', 'NumpadEnter'].includes(e.code)) {
       if (titleCard.length) {
         addTitleCard();
-        return;
+      } else {
+        if (typeof notAddCard === 'undefined') return;
+        notAddCard(false);
       }
-
-      setShowForm(false);
     }
   };
 

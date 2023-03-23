@@ -1,4 +1,14 @@
-import React, { ChangeEvent, KeyboardEvent, useState, useRef, useEffect, useCallback, useContext } from 'react';
+import React, {
+  ChangeEvent,
+  KeyboardEvent,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useContext,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 import { checkClickOutSide } from '../../../../../utils/checkClickOutSide';
 import { changeHeightTextArea } from '../../../../../utils/changeHeightTextArea';
 import { ProjectContext } from '../../../../../Contexts/ProjectContext/ProjectContext';
@@ -9,9 +19,11 @@ import './CardFooter.css';
 type CardFooterProps = {
   isTask: boolean;
   idCard: string;
+  onClickNewCard?: Dispatch<SetStateAction<boolean>>;
+  onAddCard?: (title: string) => void;
 };
 
-export const CardFooter = ({ isTask, idCard }: CardFooterProps) => {
+export const CardFooter = ({ isTask, idCard, onClickNewCard }: CardFooterProps) => {
   const { setTask } = useContext(ProjectContext);
 
   const [showForm, setShowForm] = useState(false);
@@ -31,18 +43,21 @@ export const CardFooter = ({ isTask, idCard }: CardFooterProps) => {
     };
   });
 
-  const showError = useCallback((msg: string) => {
-    console.log(msg);
-  }, [error]);
+  const showError = useCallback(
+    (msg: string) => {
+      console.log(msg);
+    },
+    [error],
+  );
 
   const addTask = () => {
-    setTask(idCard, textForm)
+    setTask(idCard, textForm);
     setTextForm('');
     setShowForm(false);
   };
 
   const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const {value} = e.target;
+    const { value } = e.target;
     if (value.length > MAX_TASK_LENGTH) {
       if (!error) {
         setError(true);
@@ -58,7 +73,7 @@ export const CardFooter = ({ isTask, idCard }: CardFooterProps) => {
     if (e.code === 'Escape') {
       setShowForm(false);
       setTextForm('');
-      return
+      return;
     }
 
     if (['Enter', 'NumpadEnter'].includes(e.code)) {
@@ -72,14 +87,20 @@ export const CardFooter = ({ isTask, idCard }: CardFooterProps) => {
   };
 
   const onClickHandle = (e: globalThis.MouseEvent) => {
-    if (!checkClickOutSide(e, areaRef)) {
-      if (textForm.length) {
-        addTask();
-        return;
-      }
+    if (checkClickOutSide(e, areaRef)) return;
 
-      setShowForm(false);
+    if (textForm.length) {
+      addTask();
+      return;
     }
+
+    setShowForm(false);
+  };
+
+  const onClickBtnAddCardHandle = () => {
+    if (typeof onClickNewCard === 'undefined') return;
+
+    onClickNewCard(true);
   };
 
   const btnAddTask = (
@@ -89,7 +110,7 @@ export const CardFooter = ({ isTask, idCard }: CardFooterProps) => {
   );
 
   const btnAddCard = (
-    <button type="button" className="card-btn-add" onClick={() => {}}>
+    <button type="button" className="card-btn-add" onClick={onClickBtnAddCardHandle}>
       &#43; Dodaj karte
     </button>
   );

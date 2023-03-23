@@ -3,6 +3,7 @@ import { defaultProject, ProjectContext } from './ProjectContext';
 import { ProjectResponseData } from 'types';
 import produce from 'immer';
 import { createNewTask } from './createNewTask';
+import { createNewCard } from './createNewCard';
 import { fetchApi } from '../../utils/featchAPI';
 
 import data from '../../data/tablesData.json';
@@ -17,10 +18,10 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
 
   const tableData = data as ProjectResponseData;
 
-  const setCard = useCallback(() => {
+  const setCard = useCallback((titleCard: string) => {
     setProject(
       produce((draft) => {
-        // draft.cards.push();
+        draft.cards.push(createNewCard(titleCard));
       }),
     );
   }, []);

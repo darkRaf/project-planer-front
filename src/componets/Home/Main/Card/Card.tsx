@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { CardHeader } from './CardHeader/CardHeader';
 import { CardMain } from './CardMain/CardMain';
 import { CardFooter } from './CardFooter/CardFooter';
 import { CardResponse } from 'types';
+import { ProjectContext } from '../../../../Contexts/ProjectContext/ProjectContext';
 
 import './Card.css';
 
@@ -11,10 +12,24 @@ type CardProps = {
 };
 
 export const Card = (props: CardProps) => {
+  const { setCard } = useContext(ProjectContext);
+
+  const [clickNewCard, setClickNewCard] = useState(false);
+
+  const addCardHandle = (title: string) => {
+    setClickNewCard(false);
+    setCard(title);
+    console.log(`click new card: ${title}`);
+  };
+
   if (props.card === null) {
     return (
       <div className="card">
-        <CardFooter idCard={''} isTask={false}/>
+        {clickNewCard ? (
+          <CardHeader idCard="" title="" newCard={clickNewCard} addCard={addCardHandle} notAddCard={setClickNewCard} />
+        ) : (
+          <CardFooter idCard="" isTask={false} onClickNewCard={setClickNewCard} />
+        )}
       </div>
     );
   }
