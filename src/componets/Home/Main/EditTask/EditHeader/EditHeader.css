@@ -1,0 +1,35 @@
+.edit-task-header {
+  width: 100%;
+  min-height: 50px;
+  padding: 10px;
+  background-color: var(--bg-color-task-hover);
+  border-radius: var(--radius-medium);
+  box-shadow: var(--shadow-card);
+}
+
+.edit-title {
+  width: calc(100% - 40px);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.edit-task-clouse-box {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 2px;
+  top: 2px;
+  width: 30px;
+  height: 30px;
+  color: red;
+  background-color: transparent;
+  border-radius: var(--radius-small);
+
+  transition: background-color linear 0.2s, color linear 0.2s;
+}
+
+.edit-task-clouse-box:hover {
+  color: var(--bg-color-task-hover);
+  background-color: red;
+}

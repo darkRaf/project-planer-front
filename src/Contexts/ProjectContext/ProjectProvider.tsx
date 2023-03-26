@@ -15,6 +15,7 @@ type ProjectProviderProps = {
 export const ProjectProvider = ({ children }: ProjectProviderProps) => {
   const [project, setProject] = useState(defaultProject);
   const [getProject, setgetProject] = useState(true);
+  const [showModalEditTask, setShowModalEditTask] = useState('');
 
   const tableData = data as ProjectResponseData;
 
@@ -65,6 +66,8 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     setCard,
     setNewTitleCard,
     setTask,
+    showModalEditTask,
+    setShowModalEditTask,
   };
 
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>;

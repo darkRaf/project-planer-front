@@ -1,0 +1,93 @@
+.edit-task-body {
+  width: calc(100% - 160px);
+  align-self: stretch;
+  background-color: var(--bg-color-task);
+  border-radius: var(--radius-medium);
+  box-shadow: var(--shadow-card);
+  z-index: 100;
+}
+
+.edit-task-section {
+  padding: 10px;
+}
+
+.edit-task-section svg {
+  width: 20px;
+  height: 20px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+}
+.section-header h4 {
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.section-body {
+  margin-top: 10px;
+  width: 100%;
+  z-index: 100;
+}
+
+.section-title {
+  padding-left: 15px;
+}
+
+.task-label {
+  display: block;
+  margin-left: 15px;
+  padding: 4px 10px;
+  width: 100%;
+  height: 100%;
+  background-color: red;
+  box-shadow: var(--shadow-up);
+  border-radius: var(--radius-small);
+}
+
+.task-description {
+  padding: 5px;
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid gray;
+  border-radius: var(--radius-medium);
+  font-size: 1rem;
+  outline: none;
+  resize: vertical;
+}
+
+.description-count {
+  width: 100%;
+  font-size: 0.8rem;
+  text-align: left;
+}
+
+.edit-task-save {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: var(--gradient-color1);
+  padding: 3px 10px;
+  background-color: rgb(9, 255, 0);
+  border: 1px solid rgb(34, 202, 28);
+  border-radius: var(--radius-small);
+  box-shadow: var(--shadow);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color linear 0.2s;
+}
+
+.edit-task-save:hover {
+  background-color: rgb(34, 202, 28);
+}
+
+.for-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.for-right svg {
+  margin-right: 10px;
+}

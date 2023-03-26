@@ -12,6 +12,9 @@
   color: rgb(22, 22, 22);
   --height-header: 50px;
 
+  --gradient-color1: rgba(9, 32, 63, 0.9);
+  --gradient-color2: rgba(83, 120, 149, 0.7);
+
   --base-text-color-l: 243, 243, 243;
   --base-lightgray: 238, 238, 238;
   --base-text-color-d: 22, 22, 22;
@@ -41,7 +44,7 @@
   --shadow-card: 2px 2px 6px rgba(0, 0, 0, 0.2), 2px 2px 3px rgba(0, 0, 0, 0.2);
   --shadow-card-up: 4px 4px 8px rgba(0, 0, 0, 0.2), 2px 2px 8px rgba(0, 0, 0, 0.4);
 
-  --aside-gradient: linear-gradient(180deg, rgba(9, 32, 63, 0.9) 0%, rgba(83, 120, 149, 0.7) 100%);
+  --aside-gradient: linear-gradient(180deg, var(--gradient-color1) 0%, var(--gradient-color2) 100%);
 
   --radius-small: 4px;
   --radius-medium: 6px;

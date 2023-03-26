@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { TaskEntity } from 'types';
 import { Label } from './Label/Label';
+import { ProjectContext } from '../../../../../../Contexts/ProjectContext/ProjectContext';
 import DriveFileRenameOutlineRoundedIcon from '@mui/icons-material/DriveFileRenameOutlineRounded';
 
 import './Task.css';
+// import { setShowModalEditTask } from '../../../../../../Contexts/ProjectContext/ProjectProvider';
 
 export const Task = ({ id, labels, title }: TaskEntity) => {
-  const showModalEditTask = () => {
-    console.log('show modal edit task');
-  };
+  const { setShowModalEditTask } = useContext(ProjectContext);
 
   return (
     <div id={id} className="task">
-      <div className="task-pen" onClick={showModalEditTask}>
+      <div className="task-pen" onClick={() => setShowModalEditTask(id)}>
         <DriveFileRenameOutlineRoundedIcon />
       </div>
       <Label labels={labels} />

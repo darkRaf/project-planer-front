@@ -1,0 +1,54 @@
+.edit-task-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.edit-task-container {
+  visibility: hidden;
+  position: absolute;
+  top: 150px;
+  left: 50%;
+  min-width: 300px;
+  width: 600px;
+  min-height: 300px;
+  color: rgb(var(--base-text-color-d));
+  font-size: 1.2rem;
+  z-index: 101;
+
+  opacity: 0;
+  transform: translateX(-50%) scale(0.9);
+  transition: all linear 0.15s;
+}
+
+.show-edit-task {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+.edit-task-main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.main-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 160px);
+  height: 200px;
+  align-self: stretch;
+  background-color: var(--bg-color-task);
+  border-radius: var(--radius-medium);
+  box-shadow: var(--shadow-card);
+  z-index: 100;
+}

@@ -1,0 +1,69 @@
+.edit-task-aside {
+  width: 150px;
+  height: 100%;
+}
+
+.edit-task-btn,
+.name-section {
+  visibility: hidden;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  text-decoration: none;
+  margin-bottom: 5px;
+  padding: 3px 10px;
+  border: 1px solid var(--gradient-color2);
+  border-radius: var(--radius-small);
+  box-shadow: var(--shadow);
+  font-size: 1rem;
+
+  opacity: 0;
+  transform: translateX(-150px);
+  z-index: 10;
+  cursor: pointer;
+  transition: all linear 0.2s calc(var(--delay) * 0.06s);
+}
+
+.name-section {
+  background-color: var(--gradient-color2);
+}
+
+.edit-task-btn {
+  background-color: var(--gradient-color1);
+}
+
+.visible-btn .edit-task-btn,
+.visible-btn .name-section {
+  visibility: visible;
+  transform: translateX(0px);
+  opacity: 1;
+}
+
+.name-section {
+  cursor: default;
+}
+
+.edit-task-btn svg,
+.name-section svg {
+  margin-right: 10px;
+}
+
+.edit-task-btn input {
+  margin-right: 10px;
+}
+
+.edit-task-btn label {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.delete-task {
+  background-color: rgb(216, 12, 12);
+}
+
+.edit-task-btn:hover {
+  transform: translateX(5px);
+}
