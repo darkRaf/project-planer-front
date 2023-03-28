@@ -2,8 +2,8 @@ import { ReactNode } from 'react';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { fetchApi } from '../../utils/featchAPI';
-import { LoginResponse } from 'types';
-import { User, defaultUser, UserContext } from './UserContext';
+import { LoginResponse, RegisterResponse } from 'types';
+import { User, defaultUser, UserContext, UserRegister } from './UserContext';
 
 type UserProviderProps = {
   children: ReactNode;
@@ -17,6 +17,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     try {
       const refData = await fetchApi.refreshToken();
       const { accessToken, name } = refData;
+      fetchApi.setToken(accessToken);
 
       setUser((prev) => ({
         ...prev,
@@ -31,14 +32,21 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const loginHandler = async (email: string, password: string) => {
     try {
       document.body.style.cursor = 'wait';
-      const result = (await fetchApi.post('/login', { email, password })) as unknown as LoginResponse;
+
+      const result = (await fetchApi.post('/login', { email, password })) as LoginResponse;
 
       if (result) {
-        fetchApi.setToken(result.accessToken);
+        const { accessToken, name, lastName, email, settings } = result;
+
+        fetchApi.setToken(accessToken);
+
         setUser((prev) => ({
           ...prev,
           auth: true,
-          name: result.name,
+          name,
+          lastName,
+          email,
+          settings,
         }));
       }
     } catch (err) {
@@ -48,30 +56,65 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         ...prev,
         error: message,
       }));
-    }finally{
+    } finally {
       document.body.style.cursor = 'default';
+      return <Navigate to="/" replace />;
     }
-
-    return <Navigate to="/" replace />;
   };
 
-  const logoutHandler = () => {
-    setUser({ auth: false, name: '', error: '' });
+  const registerHandler = async (newUser: UserRegister) => {
+    try {
+      document.body.style.cursor = 'wait';
+      const result = (await fetchApi.post('/register', { ...newUser })) as RegisterResponse;
 
-    return <Navigate to="/login" replace />;
+      if (result) {
+        setUser((prev) => ({
+          ...prev,
+          email: result.emial,
+        }));
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Nieznany błąd.';
+
+      setUser((prev) => ({
+        ...prev,
+        error: message,
+      }));
+    } finally {
+      document.body.style.cursor = 'default';
+      <Navigate to="/login" replace />;
+    }
+  };
+
+  const logoutHandler = async () => {
+    try {
+      await fetchApi.delete('/logout');
+
+      setUser({
+        auth: false,
+        name: '',
+        lastName: '',
+        email: '',
+        settings: { avatarImg: '', activeIdProject: '', thema: '' },
+        error: '',
+      });
+
+      return <Navigate to="/login" replace />;
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const value = {
-    auth: user.auth,
-    name: user.name,
-    error: user.error,
+    ...user,
     onLogin: loginHandler,
     onLogout: logoutHandler,
+    onRegister: registerHandler,
   };
 
   if (isRefresh) {
-    refreshToken()
-    setIsRefresh(false);  
+    refreshToken();
+    setIsRefresh(false);
   }
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
