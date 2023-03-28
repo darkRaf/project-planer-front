@@ -1,5 +1,5 @@
 import { HOST } from '../settings/settings';
-import { LoginResponse } from 'types';
+import { ErrorLoginEntity, LoginResponse } from 'types';
 
 type FetchMethod = 'GET' | 'POST' | 'DELETE' | 'UPDATE' | 'PUT' | undefined;
 
@@ -21,8 +21,8 @@ class FetchApi {
   }
 
   private setHeaders = (): void => {
-    this.headers.delete('athorization');
-    if (this.token) this.headers.append('athorization', `Bearer ${this.token}`);
+    this.headers.delete('authorization');
+    if (this.token) this.headers.append('authorization', `Bearer ${this.token}`);
   };
 
   private setSettings = (): void => {
@@ -34,22 +34,32 @@ class FetchApi {
     if (this.body) this.settings.body = this.body;
   };
 
-  private fetch = async (): Promise<Object> => {
+  private fetch = async <T>(): Promise<T | undefined> => {
     this.setHeaders();
     this.setSettings();
 
     const url = `${this.host}${this.ednpoint}`;
     const res = await fetch(url, this.settings);
-    const jsonData = await res.json();
+    const contentType = res.headers.get("content-type");
 
     if (res.ok) {
       this.settings = undefined;
       this.body = null;
 
-      return jsonData
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        return await res.json();
+      }
     }
-    
-    throw new Error(jsonData.message);
+
+    if (contentType && contentType.indexOf("application/json") !== -1) {
+      const jsonData = await res.json();
+
+      if (Array.isArray(jsonData.message)) {
+        throw new Error((jsonData.message as ErrorLoginEntity[]).map((err) => err.message).join('\n'));
+      } else {
+        throw new Error(jsonData.message);
+      }
+    }
   };
 
   refreshToken = async (): Promise<LoginResponse> => {
@@ -60,30 +70,30 @@ class FetchApi {
     this.token = token;
   };
 
-  get = async (endpoint: string): Promise<Object> => {
+  get = async <T>(endpoint: string): Promise<T | undefined> => {
     this.method = 'GET';
     this.ednpoint = endpoint;
-    return await this.fetch();
+    return await this.fetch<T>();
   };
 
-  post = async (endpoint: string, body: Object | null = null): Promise<Object> => {
+  post = async <T>(endpoint: string, body: Object | null = null): Promise<T | undefined> => {
     this.method = 'POST';
     this.ednpoint = endpoint;
     this.body = (body) ? JSON.stringify(body) : null;
-    return await this.fetch();
+    return await this.fetch<T>();
   };
 
-  delete = async (endpoint: string): Promise<Object> => {
+  delete = async (endpoint: string): Promise<void> => {
     this.method = 'DELETE';
     this.ednpoint = endpoint;
-    return await this.fetch();
+    await this.fetch();
   };
 
-  update = async (endpoint: string, body = ''): Promise<Object> => {
+  update = async <T>(endpoint: string, body = ''): Promise<T | undefined> => {
     this.method = 'UPDATE';
     this.ednpoint = endpoint;
     this.body = (body) ? JSON.stringify(body) : null;
-    return await this.fetch();
+    return await this.fetch<T>();
   };
 }
 
