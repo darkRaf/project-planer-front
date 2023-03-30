@@ -1,4 +1,5 @@
-import React, { CSSProperties, ReactNode } from 'react';
+import React, { CSSProperties, ReactNode, useContext } from 'react';
+import { ProjectContext } from '../../../Contexts/ProjectContext/ProjectContext';
 
 import './Container.css';
 
@@ -7,7 +8,9 @@ type ContainerProps = {
 };
 
 export const Container = ({ children }: ContainerProps) => {
-  const urlBgImage = `./images/backgrounds/bg-1.jpg`;
+  const { background } = useContext(ProjectContext);
+  
+  const urlBgImage = `./images/backgrounds/${background}`;
 
   const styles: CSSProperties = {
     backgroundImage: `url(${urlBgImage})`,

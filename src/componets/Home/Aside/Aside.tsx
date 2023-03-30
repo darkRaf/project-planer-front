@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { AsideSection } from './AsideSection/AsideSection';
 import { MyProjectsList } from './AsideSection/MyProjectsList/MyProjectsList';
 import { Calendar } from './AsideSection/Calendar/Calendar';
 import { Weather } from './AsideSection/Weather/Weather';
+import { UserContext } from '../../../Contexts/UserContext/UserContext';
 import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
 import ListAltRoundedIcon from '@mui/icons-material/ListAltRounded';
 import TodayRoundedIcon from '@mui/icons-material/TodayRounded';
@@ -11,6 +12,8 @@ import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
 import './Aside.css';
 
 export const Aside = () => {
+  const { name, lastName } = useContext(UserContext);
+
   const [asideMin, setAsideMin] = useState(false);
 
   return (
@@ -21,14 +24,14 @@ export const Aside = () => {
 
       <AsideSection>
         <div className="aside-row">
-          <AccountBoxRoundedIcon />
-          <span className="aside-text">Imię Nazwisko</span>
+          <AccountBoxRoundedIcon sx={{ fontSize: 35 }} />
+          <span className="aside-text">{name} {lastName}</span>
         </div>
       </AsideSection>
 
       <AsideSection>
         <div className="aside-row no-hover">
-          <ListAltRoundedIcon />
+          <ListAltRoundedIcon sx={{ fontSize: 35 }} />
           <span className="aside-text">Moje Projekty</span>
         </div>
         <MyProjectsList />
@@ -36,7 +39,7 @@ export const Aside = () => {
 
       <AsideSection>
         <div className="aside-row no-hover">
-          <TodayRoundedIcon />
+          <TodayRoundedIcon sx={{ fontSize: 35 }} />
           <span className="aside-text">Kalendarz</span>
         </div>
         <Calendar />
@@ -44,7 +47,7 @@ export const Aside = () => {
 
       <AsideSection>
         <div className="aside-row no-hover">
-          <WbSunnyRoundedIcon />
+          <WbSunnyRoundedIcon sx={{ fontSize: 35 }} />
           <span className="aside-text">Pogoda</span>
         </div>
         <Weather />
