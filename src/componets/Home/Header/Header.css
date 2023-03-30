@@ -4,14 +4,11 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
   padding: 5px 15px;
   width: 100%;
   height: var(--height-header);
-
   background-color: rgba(var(--color-300), 0.9);
   backdrop-filter: blur(10px);
-
   border-bottom: 1px solid var(--color-line);
   box-shadow: var(--shadow);
 }
@@ -23,17 +20,13 @@
 }
 
 .header-logo {
-  --shadow: 0 0 8px rgba(var(--color-green), 0.3),
-    0 0 5px rgba(var(--color-green), 0.5);
-
+  --shadow: 0 0 8px rgba(var(--color-green), 0.3), 0 0 5px rgba(var(--color-green), 0.5);
   display: flex;
   flex-direction: row;
   justify-content: center;
-
   margin-right: 10px;
   width: 30px;
   height: 30px;
-
   color: rgb(var(--color-green));
   border: 1px solid rgb(var(--color-green));
   text-shadow: var(--shadow);
@@ -44,18 +37,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
   padding-left: 50px;
   padding-right: 50px;
   height: 100%;
-
   background-color: var(--bg-color-table);
   border-radius: var(--radius-medium);
 }
 
 .header-avatar-box {
+  position: relative;
   width: calc(var(--height-header) - 16px);
   height: calc(var(--height-header) - 16px);
-
   cursor: pointer;
 }

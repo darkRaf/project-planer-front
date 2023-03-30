@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import { UserContext } from '../../../Contexts/UserContext/UserContext';
 
 import './Header.css';
-const avatar = './images/avatars/avatar-1.svg';
+import { HeaderSettings } from './HeaderSettings/HeaderSettings';
 
 type HeaderProps = {
   id: string;
@@ -9,16 +10,23 @@ type HeaderProps = {
 };
 
 export const Header = (props: HeaderProps) => {
+  const {
+    settings: { avatarImg },
+  } = useContext(UserContext);
+
+  const [showMenu, setShowMenu] = useState(false);
+
   return (
-    <header className='header'>
-      <div className='header-section'>
-        <div className='header-logo'>pp</div>
-        <span className='header-app-name'>Project Planer</span>
+    <header className="header">
+      <div className="header-section">
+        <div className="header-logo">pp</div>
+        <span className="header-app-name">Project Planer</span>
       </div>
-      <div className='header-section table-name'>{props.title}</div>
-      <div className='header-section'>
-        <div className='header-avatar-box'>
-          <img src={avatar} alt='Avatar' />
+      <div className="header-section table-name">{props.title || 'Dodaj nowy projekt'}</div>
+      <div className="header-section">
+        <div className="header-avatar-box" onClick={() => setShowMenu(!showMenu)}>
+          <img src={`./images/avatars/${avatarImg}`} alt="Avatar" />
+          {showMenu && <HeaderSettings setShowMenu={setShowMenu} showMenu={showMenu}/>}
         </div>
       </div>
     </header>
