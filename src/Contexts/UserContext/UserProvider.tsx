@@ -1,8 +1,8 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { fetchApi } from '../../utils/featchAPI';
-import { LoginResponse, RegisterResponse } from 'types';
+import { LoginResponse, RegisterResponse, UserSettingsEntity } from 'types';
 import { User, defaultUser, UserContext, UserRegister } from './UserContext';
 
 type UserProviderProps = {
@@ -12,6 +12,30 @@ type UserProviderProps = {
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<User>(defaultUser);
   const [isRefresh, setIsRefresh] = useState(true);
+
+  useEffect(() => {
+    if (isRefresh) {
+      refreshToken();
+      setIsRefresh(false);
+    }
+  }, []);
+
+  const setErrorHandle = (err: Error | unknown) => {
+    console.log(err);
+    const message = err instanceof Error ? err.message : 'Nieznany błąd.';
+
+    setUser((prev) => ({
+      ...prev,
+      error: message,
+    }));
+  };
+
+  const updateUserSettings = (settings: UserSettingsEntity) => {
+    setUser((prev) => ({
+      ...prev,
+      settings,
+    }));
+  };
 
   const refreshToken = async () => {
     try {
@@ -24,6 +48,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         auth: accessToken ? true : false,
         name,
       }));
+
+      const settings = await fetchApi.get<UserSettingsEntity>(`/user`);
+      settings && updateUserSettings(settings);
     } catch (err) {
       console.error(err);
     }
@@ -32,12 +59,10 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const loginHandler = async (email: string, password: string) => {
     try {
       document.body.style.cursor = 'wait';
-
       const result = (await fetchApi.post('/login', { email, password })) as LoginResponse;
 
       if (result) {
         const { accessToken, name, lastName, email, settings } = result;
-
         fetchApi.setToken(accessToken);
 
         setUser((prev) => ({
@@ -49,13 +74,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
           settings,
         }));
       }
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Nieznany błąd.';
-
-      setUser((prev) => ({
-        ...prev,
-        error: message,
-      }));
+    } catch (err: Error | unknown) {
+      setErrorHandle(err);
     } finally {
       document.body.style.cursor = 'default';
       return <Navigate to="/" replace />;
@@ -73,13 +93,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
           email: result.emial,
         }));
       }
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Nieznany błąd.';
-
-      setUser((prev) => ({
-        ...prev,
-        error: message,
-      }));
+    } catch (err: Error | unknown) {
+      setErrorHandle(err);
     } finally {
       document.body.style.cursor = 'default';
       <Navigate to="/login" replace />;
@@ -90,18 +105,11 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     try {
       await fetchApi.delete('/logout');
 
-      setUser({
-        auth: false,
-        name: '',
-        lastName: '',
-        email: '',
-        settings: { avatarImg: '', activeIdProject: '', thema: '' },
-        error: '',
-      });
+      setUser(defaultUser);
 
       return <Navigate to="/login" replace />;
-    } catch (err) {
-      console.log(err);
+    } catch (err: Error | unknown) {
+      setErrorHandle(err);
     }
   };
 
@@ -110,12 +118,9 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     onLogin: loginHandler,
     onLogout: logoutHandler,
     onRegister: registerHandler,
+    setErrorHandle,
+    updateUserSettings,
   };
-
-  if (isRefresh) {
-    refreshToken();
-    setIsRefresh(false);
-  }
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

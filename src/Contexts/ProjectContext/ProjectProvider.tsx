@@ -1,23 +1,31 @@
-import { ReactNode, useCallback, useState } from 'react';
+import { ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { defaultProject, ProjectContext } from './ProjectContext';
-import { ProjectResponseData } from 'types';
+import { AllProjectsResponse, ProjectEntityResponse, UserSettingsEntity, UserSettingsRequest } from 'types';
 import produce from 'immer';
 import { createNewTask } from './createNewTask';
 import { createNewCard } from './createNewCard';
 import { fetchApi } from '../../utils/featchAPI';
-
-import data from '../../data/tablesData.json';
+import { UserContext } from '../UserContext/UserContext';
 
 type ProjectProviderProps = {
   children: ReactNode;
 };
 
 export const ProjectProvider = ({ children }: ProjectProviderProps) => {
-  const [project, setProject] = useState(defaultProject);
-  const [getProject, setgetProject] = useState(true);
-  const [showModalEditTask, setShowModalEditTask] = useState('');
+  const { setErrorHandle, updateUserSettings, settings } = useContext(UserContext);
 
-  const tableData = data as ProjectResponseData;
+  const [project, setProject] = useState(defaultProject);
+  const [isReady, setIsReady] = useState(true);
+  const [showModalEditTask, setShowModalEditTask] = useState('');
+  const [showMenuNewProject, setShowMenuNewProject] = useState(false);
+
+  useEffect(() => {
+    if (isReady) {
+      getAllProjects();
+      getProject(settings.activeIdProject);
+      setIsReady(false);
+    }
+  }, []);
 
   const setCard = useCallback((titleCard: string) => {
     setProject(
@@ -36,7 +44,6 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     );
 
     //TODO: zapisac nowy task w DB
-
   }, []);
 
   const setNewTitleCard = useCallback((idCard: string, titleCard: string) => {
@@ -48,26 +55,69 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     );
 
     //TODO: zapisac nowy tytuł karty w DB
-
   }, []);
 
-  const getProjectFromDB = () => {
-    console.log('data from db');
-    setProject((prev) => ({ ...prev, ...tableData }));
-  };
+  const getAllProjects = useCallback(async () => {
+    try {
+      const myProjectsList = await fetchApi.get<AllProjectsResponse[]>('/project');
 
-  if (getProject) {
-    getProjectFromDB();
-    setgetProject(false);
-  }
+      myProjectsList && setProject((prev) => ({ ...prev, myProjectsList }));
+    } catch (err) {
+      setErrorHandle(err);
+    }
+  }, []);
+
+  const getProject = useCallback(async (id: string) => {
+    try {
+      const projectRes = await fetchApi.get<ProjectEntityResponse>(`/project/${id}`);
+
+      projectRes &&
+        setProject((prev) => ({
+          ...prev,
+          title: projectRes?.title,
+          background: projectRes?.background,
+          id: projectRes?.id,
+          cardsId: projectRes?.cardsId,
+        }));
+
+      const settings: UserSettingsRequest = {
+        settings: {
+          activeIdProject: id,
+        }
+      };
+
+      await fetchApi.put(`/user`, settings);
+      const settingsRes = await fetchApi.get<UserSettingsEntity>(`/user`);
+
+      settingsRes && updateUserSettings(settingsRes);
+    } catch (err) {
+      setErrorHandle(err);
+    }
+  }, []);
+
+  const setNewProject = useCallback(async (title: string, background: string) => {
+    try {
+      const settings = await fetchApi.post<UserSettingsEntity>('/project', { title, background });
+      await getAllProjects();
+
+      settings && updateUserSettings(settings);
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   const value = {
     ...project,
+    setNewProject,
     setCard,
     setNewTitleCard,
     setTask,
     showModalEditTask,
     setShowModalEditTask,
+    showMenuNewProject,
+    setShowMenuNewProject,
+    getAllProjects,
+    getProject,
   };
 
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>;

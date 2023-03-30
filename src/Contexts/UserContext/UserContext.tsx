@@ -33,6 +33,8 @@ export const defaultUser = {
   onLogin: (email: string, password: string) => {},
   onRegister: (user: UserRegister) => {},
   onLogout: () => {},
+  updateUserSettings: (settings: UserSettingsEntity) => {},
+  setErrorHandle: (err: Error | unknown) => {},
 };
 
 export const UserContext = createContext(defaultUser);
