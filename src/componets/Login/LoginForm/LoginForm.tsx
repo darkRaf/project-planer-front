@@ -8,10 +8,10 @@ import { LoginInput } from '../../Commpare/LoginInput/LoginInput';
 import './LoginForm.css';
 
 export const LoginForm = () => {
-  const { auth, onLogin, error } = useContext(UserContext);
+  const { auth, onLogin, email, error } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const [loginForm, setLoginFrom] = useState({
-    email: '',
+    email,
     password: '',
   });
 

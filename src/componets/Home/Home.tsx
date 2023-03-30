@@ -8,7 +8,7 @@ import { ProjectContext } from '../../Contexts/ProjectContext/ProjectContext';
 import './Home.css';
 
 const Home = () => {
-  const { userId, cards, cardsId, id, title } = useContext(ProjectContext);
+  const { cards, cardsId, id, title } = useContext(ProjectContext);
 
   return (
     <Container>
