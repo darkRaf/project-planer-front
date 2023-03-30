@@ -1,0 +1,56 @@
+.header-settings-container {
+  visibility: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 230px; 
+  right: 200px;
+  bottom: 10px;
+  padding: 10px;
+  color: rgb(var(--base-text-color-d));
+  background-color: white;
+  border-radius: var(--radius-medium);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transition: all linear .3s;
+  cursor: default;
+}
+
+.show-settings {
+  visibility: visible;
+  bottom: -10px;
+  opacity: 1;
+}
+
+.settings-item {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  margin: 5px 0;
+  padding: 10px;
+  width: 100%;
+  /* border-bottom: 1px solid var(--gradient-color1); */
+  border-radius: var(--radius-small);
+  transition: all linear .3s;
+  cursor: pointer;
+}
+
+.settings-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-bottom: 1px solid var(--gradient-color1);
+}
+
+.settings-item svg {
+  margin-right: 20px;
+}
+
+.settings-item:hover {
+  padding-left: 15px;
+  background-color: var(--mask-color-dark01);
+}
