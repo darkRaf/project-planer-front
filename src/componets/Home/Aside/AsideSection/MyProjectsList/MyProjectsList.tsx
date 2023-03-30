@@ -1,38 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import { ProjectContext } from '../../../../../Contexts/ProjectContext/ProjectContext';
 
 import './MyProjectsList.css';
-
-const tables = [
-  {
-    id: 'agdnsfdhgadgaadsfadsfasd',
-    img: './images/backgrounds/bg-1.jpg',
-    title: 'Nazwa tablicy',
-    isActive: true,
-  },
-  {
-    id: 'adgbnsfthyq34ewtgasdvsad',
-    img: './images/backgrounds/bg-2.jpg',
-    title: 'Nazwa tablicy lorem ipsum not amet',
-    isActive: false,
-  },
-];
+import { ProjectItem } from './ProjectItem/ProjectItem';
 
 export const MyProjectsList = () => {
-  if (!tables.length) return null;
+  const { myProjectsList, setShowMenuNewProject } = useContext(ProjectContext);
 
   return (
     <>
-      {tables.map((table) => {
-        const active = table.isActive ? 'active' : '';
-        return (
-          <div key={table.id} className={`aside-row ${active}`}>
-            <div className="aside-ico">
-              <img src={table.img} alt="" className="aside-img" />
-            </div>
-            <span className="aside-text w-400">{table.title}</span>
-          </div>
-        );
-      })}
+      {myProjectsList.map((table) => (
+        <ProjectItem key={table.id} id={table.id} title={table.title} background={table.background} />
+      ))}
+      <div className={`aside-row`} onClick={() => setShowMenuNewProject(true)}>
+        <div className="aside-ico">
+          <AddRoundedIcon sx={{ fontSize: 30 }} />
+        </div>
+        <span className="aside-text w-400">Dodaj nowy projekt</span>
+      </div>
     </>
   );
 };
