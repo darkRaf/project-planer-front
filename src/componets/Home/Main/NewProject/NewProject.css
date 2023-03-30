@@ -1,0 +1,107 @@
+.project-settings-container {
+  visibility: hidden;
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  padding: 15px;
+  width: 360px;
+  height: auto;
+  color: rgb(var(--base-text-color-d));
+  background-color: white;
+  border-radius: var(--radius-medium);
+  box-shadow: var(--shadow);
+  transform: translate(-50%, -50px);
+  opacity: 0;
+  z-index:200;
+  transition: all linear 0.2s;
+}
+
+.show-project-settings {
+  visibility: visible;
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+.project-settings-header {
+  display: block;
+  padding-bottom: 10px;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid var(--gradient-color1);
+}
+
+.close-box {
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.project-settings-body {
+  padding-top: 10px;
+  width: 100%;
+}
+
+.project-title {
+  margin-top: 5px;
+  padding: 5px;
+  width: 100%;
+  font-size: 1rem;
+  border: 1px solid var(--gradient-color1);
+  border-radius: var(--radius-small);
+  outline: none;
+}
+
+.project-background-box {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 5px;
+}
+
+.project-section-title {
+  display: block;
+  padding-top: 15px;
+}
+
+.project-img {
+  margin: 5px;
+  width: 100px;
+  height: 60px;
+  border: 1px solid gray;
+  border-radius: var(--radius-small);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: transform linear .2s;
+}
+
+.project-img:hover {
+  transform: scale(1.08);
+}
+
+.bg-active {
+  transform: scale(.85);
+  opacity: 0.6;
+}
+
+.project-settings-btn {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgb(var(--base-text-color-l));
+  background-color: var(--gradient-color1);
+  outline: none;
+  border: none;
+  border-radius: var(--radius-small);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: background-color linear .2s;
+}
+
+.project-settings-btn:hover {
+  color: var(--base-text-color-d);
+  background-color: var(--gradient-color2);
+}
