@@ -1,7 +1,7 @@
 import { HOST } from '../settings/settings';
-import { ErrorLoginEntity, LoginResponse } from 'types';
+import { ErrorLoginEntity, LoginResponse, UserSettingsRequest } from 'types';
 
-type FetchMethod = 'GET' | 'POST' | 'DELETE' | 'UPDATE' | 'PUT' | undefined;
+type FetchMethod = 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT' | undefined;
 
 class FetchApi {
   private host: string;
@@ -89,8 +89,8 @@ class FetchApi {
     await this.fetch();
   };
 
-  update = async <T>(endpoint: string, body = ''): Promise<T | undefined> => {
-    this.method = 'UPDATE';
+  put = async <T>(endpoint: string, body: UserSettingsRequest ): Promise<T | undefined> => {
+    this.method = 'PUT';
     this.ednpoint = endpoint;
     this.body = (body) ? JSON.stringify(body) : null;
     return await this.fetch<T>();
