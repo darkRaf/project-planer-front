@@ -41,8 +41,8 @@ export const HeaderSettings = ({ showMenu, setShowMenu }: HeaderSettingsProps) =
   };
 
   return (
-    <div className={`header-settings-container ${addClass}`}>
-      <div ref={divRef} className="settings-item" onClick={onSettingsHanlder}>
+    <div ref={divRef} className={`header-settings-container ${addClass}`}>
+      <div className="settings-item" onClick={onSettingsHanlder}>
         <SettingsRoundedIcon />
         Ustawienia
       </div>

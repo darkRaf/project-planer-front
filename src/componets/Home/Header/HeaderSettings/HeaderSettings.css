@@ -1,11 +1,11 @@
 .header-settings-container {
   visibility: hidden;
-  position: relative;
+  position: absolute;
   display: flex;
   flex-direction: column;
   width: 230px; 
-  right: 200px;
-  bottom: 10px;
+  top: 10px;
+  right: 0;
   padding: 10px;
   color: rgb(var(--base-text-color-d));
   background-color: white;
@@ -18,7 +18,7 @@
 
 .show-settings {
   visibility: visible;
-  bottom: -10px;
+  top: 40px;
   opacity: 1;
 }
 
@@ -31,7 +31,6 @@
   margin: 5px 0;
   padding: 10px;
   width: 100%;
-  /* border-bottom: 1px solid var(--gradient-color1); */
   border-radius: var(--radius-small);
   transition: all linear .3s;
   cursor: pointer;
