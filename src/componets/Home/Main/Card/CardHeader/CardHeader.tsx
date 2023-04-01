@@ -1,17 +1,9 @@
-import React, {
-  KeyboardEvent,
-  useEffect,
-  useRef,
-  useState,
-  ChangeEvent,
-  useCallback,
-  useContext,
-  Dispatch,
-} from 'react';
+import React, { KeyboardEvent, useEffect, useRef, useState, ChangeEvent, useContext, Dispatch } from 'react';
 import { checkClickOutSide } from '../../../../../utils/checkClickOutSide';
 import { changeHeightTextArea } from '../../../../../utils/changeHeightTextArea';
 import { MAX_CARD_TITLE_LENGTH } from '../../../../../settings/settings';
 import { ProjectContext } from '../../../../../Contexts/ProjectContext/ProjectContext';
+import { UserContext } from '../../../../../Contexts/UserContext/UserContext';
 
 import './CardHeader.css';
 
@@ -24,7 +16,8 @@ type Props = {
 };
 
 export const CardHeader = ({ idCard, title, newCard = false, addCard, notAddCard }: Props) => {
-  const { setNewTitleCard } = useContext(ProjectContext);
+  const { setErrorHandle } = useContext(UserContext);
+  const { changeCardTitle } = useContext(ProjectContext);
 
   const [titleCard, setTitleCard] = useState(title);
   const [prevTitleCard, setPrevTitleCard] = useState(title);
@@ -47,20 +40,13 @@ export const CardHeader = ({ idCard, title, newCard = false, addCard, notAddCard
     };
   });
 
-  const showError = useCallback(
-    (msg: string) => {
-      console.log(msg);
-    },
-    [error],
-  );
-
   const addTitleCard = () => {
     if (showForm) {
       setPrevTitleCard(titleCard);
       if (typeof addCard !== 'undefined') addCard(titleCard);
     }
 
-    setNewTitleCard(idCard, titleCard);
+    changeCardTitle(idCard, titleCard);
     setShowForm(false);
     setIsSelect(true);
   };
@@ -69,14 +55,12 @@ export const CardHeader = ({ idCard, title, newCard = false, addCard, notAddCard
     const { value } = e.target;
 
     if (value.length > MAX_CARD_TITLE_LENGTH) {
-      if (!error) {
-        setError(true);
-        showError(`Przekroczono ${MAX_CARD_TITLE_LENGTH} znaków!`);
-      }
-    } else {
-      setTitleCard(value);
-      changeHeightTextArea(e);
+      setErrorHandle(`Przekroczono ${MAX_CARD_TITLE_LENGTH} znaków!`);
+      return;
     }
+
+    setTitleCard(value);
+    changeHeightTextArea(e);
   };
 
   const mousedownHandle = (e: MouseEvent) => {
