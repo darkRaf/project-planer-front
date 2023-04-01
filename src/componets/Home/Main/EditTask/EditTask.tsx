@@ -1,16 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../../../../Contexts/UserContext/UserContext';
 import { ProjectContext } from '../../../../Contexts/ProjectContext/ProjectContext';
 import { TaskEntity } from '../../../../../../project-planer-back/types/taskEntyti';
 import { EditHeader } from './EditHeader/EditHeader';
 import { EditBody } from './EditBody/EditBody';
 import { EditAside } from './EditAside/EditAside';
 import { Loader } from '../../../Commpare/Loader/Loader';
+import { fetchApi } from '../../../../utils/featchAPI';
 
 import './EditTask.css';
-import data from '../../../../data/tablesData.json';
 
 export const EditTask = () => {
-  const { showModalEditTask } = useContext(ProjectContext);
+  const { setErrorHandle } = useContext(UserContext);
+  const { showModalEditTask, setShowModalEditTask } = useContext(ProjectContext);
 
   const [showContainer, setShowContainer] = useState(false);
   const [loader, setLoader] = useState(true);
@@ -24,14 +26,21 @@ export const EditTask = () => {
 
   useEffect(() => {
     setShowContainer(true);
-
-    setTimeout(() => {
-      const task = data.cards[0].tasks.find((task) => task.id === showModalEditTask) as TaskEntity;
-
-      task && setTaskData({ ...task });
-      setLoader(false);
-    }, 1000);
+    getTask();
   }, []);
+
+  const getTask = async () => {
+    const task = await fetchApi.get<TaskEntity>(`/task/${showModalEditTask}`);
+
+    if (!task) {
+      setErrorHandle('Bład pobierania danych');
+      setShowModalEditTask('');
+      return;
+    }
+
+    setTaskData(task);
+    setLoader(false);
+  };
 
   return (
     <>
