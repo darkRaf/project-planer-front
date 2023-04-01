@@ -1,21 +1,29 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../../../Contexts/UserContext/UserContext';
 import { Button } from '../../Commpare/Button/Button';
 import { LoginInput } from '../../Commpare/LoginInput/LoginInput';
 
-// type RegisterProps = {
-//   onClick: Function;
-// }
-
-// export const RegisterForm = (props : RegisterProps) => {
 export const RegisterForm = () => {
+  const { onRegister, error } = useContext(UserContext);
+
+  const [isLoading, setIsLoading] = useState(false);
   const [loginForm, setLoginFrom] = useState({
-    emial: '',
+    email: '',
     name: '',
-    lastname: '',
+    lastName: '',
     password: '',
     confirmPassword: '',
   });
+
+  useEffect(() => {
+    setIsLoading(false);
+    setLoginFrom((prev) => ({
+      ...prev,
+      password: '',
+      confirmPassword: '',
+    }));
+  }, [error]);
 
   const changeLoginForm = (key: string, val: string) => {
     setLoginFrom((prev) => ({
@@ -26,18 +34,20 @@ export const RegisterForm = () => {
 
   const sendForm = (e: SyntheticEvent) => {
     e.preventDefault();
-    console.log(loginForm);
+    setIsLoading(true);
+    onRegister({...loginForm});
   };
 
   return (
     <form className="form" onSubmit={sendForm}>
+      {error !== '' ? <p className="error-box">{error}</p> : null}
       <LoginInput
-        id="emial"
+        id="email"
         type="text"
         label="Email"
-        name="emial"
+        name="email"
         handleChange={changeLoginForm}
-        value={loginForm.emial}
+        value={loginForm.email}
       />
       <LoginInput
         id="name"
@@ -48,12 +58,12 @@ export const RegisterForm = () => {
         value={loginForm.name}
       />
       <LoginInput
-        id="lastname"
+        id="lastName"
         type="text"
         label="Nazwisko"
-        name="lastname"
+        name="lastName"
         handleChange={changeLoginForm}
-        value={loginForm.lastname}
+        value={loginForm.lastName}
       />
       <LoginInput
         id="password"
@@ -69,9 +79,9 @@ export const RegisterForm = () => {
         label="Powtórz hasło"
         name="confirmPassword"
         handleChange={changeLoginForm}
-        value={loginForm.password}
+        value={loginForm.confirmPassword}
       />
-      <Button name="Zarejestruj się" disabled={false} />
+      <Button name="Zarejestruj się" disabled={isLoading} />
       <p className='signup'>
         Masz już konto?
         <Link to="/login" className="link-to-register" >
