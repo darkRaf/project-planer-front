@@ -12,13 +12,13 @@ type CardProps = {
 };
 
 export const Card = (props: CardProps) => {
-  const { setCard } = useContext(ProjectContext);
+  const { setCard, id: projectId } = useContext(ProjectContext);
 
   const [clickNewCard, setClickNewCard] = useState(false);
 
   const addCardHandle = (title: string) => {
     setClickNewCard(false);
-    setCard(title);
+    setCard(title, projectId);
     console.log(`click new card: ${title}`);
   };
 

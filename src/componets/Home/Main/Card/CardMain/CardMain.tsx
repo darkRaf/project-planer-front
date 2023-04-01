@@ -5,12 +5,12 @@ import './CardMain.css';
 import { TaskEntity } from 'types';
 
 type PropsCardMain = {
-  tasks: TaskEntity[]
-}
+  tasks: TaskEntity[];
+};
 
-export const CardMain = ({tasks}: PropsCardMain) => {
+export const CardMain = ({ tasks }: PropsCardMain) => {
   return (
-    <div className='card-main'>
+    <div className="card-main">
       {tasks.map((task) => (
         <Task key={task.id} {...task} />
       ))}
