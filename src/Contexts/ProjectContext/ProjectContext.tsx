@@ -3,7 +3,7 @@ import { AllProjectsResponse, ProjectEntityResponse, ProjectResponseData } from 
 
 export interface ProjectContext extends ProjectResponseData {
   setNewProject: (title: string, background: string) => Promise<void>;
-  setCard: (titleCard: string) => void;
+  setCard: (titleCard: string, id: string) => void;
   setNewTitleCard: (idCard: string, titleTask: string) => void;
   setTask: (idCard: string, titleTask: string) => void;
   showModalEditTask: string;

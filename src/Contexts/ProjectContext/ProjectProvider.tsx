@@ -1,9 +1,14 @@
 import { ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { defaultProject, ProjectContext } from './ProjectContext';
-import { AllProjectsResponse, ProjectEntityResponse, UserSettingsEntity, UserSettingsRequest } from 'types';
+import {
+  AllProjectsResponse,
+  CardResponse,
+  ProjectEntityResponse,
+  TaskEntity,
+  UserSettingsEntity,
+  UserSettingsRequest,
+} from 'types';
 import produce from 'immer';
-import { createNewTask } from './createNewTask';
-import { createNewCard } from './createNewCard';
 import { fetchApi } from '../../utils/featchAPI';
 import { UserContext } from '../UserContext/UserContext';
 
@@ -27,19 +32,45 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     }
   }, []);
 
-  const setCard = useCallback((titleCard: string) => {
-    setProject(
-      produce((draft) => {
-        draft.cards.push(createNewCard(titleCard));
-      }),
-    );
+  const setNewProject = useCallback(async (title: string, background: string) => {
+    try {
+      const settings = await fetchApi.post<UserSettingsEntity>('/project', { title, background });
+      settings && updateUserSettings(settings);
+
+      await getAllProjects();
+      // TODO: ustaw nowy projekt jako aktualny!
+    } catch (err) {
+      console.log(err);
+    }
   }, []);
 
-  const setTask = useCallback((idCard: string, titleTask: string) => {
+  const setCard = useCallback(async (title: string, projectId: string) => {
+    try {
+      const cartRes = await fetchApi.post<CardResponse>('/card', { title, projectId });
+      console.log('setCard', cartRes);
+
+      if (!cartRes) return;
+
+      setProject(
+        produce((draft) => {
+          draft.cards.push({ ...cartRes, tasks: [] });
+        }),
+      );
+    } catch (err) {
+      setErrorHandle(err);
+    }
+  }, []);
+
+  const setTask = useCallback(async (cardId: string, title: string) => {
+    const taskRes = await fetchApi.post<TaskEntity>('/task', { title, cardId });
+    console.log('setTask', taskRes);
+
+    if (!taskRes) return;
+
     setProject(
       produce((draft) => {
-        const card = draft.cards.find((card) => card.id === idCard);
-        card?.tasks.push(createNewTask(titleTask));
+        const card = draft.cards.find((card) => card.id === cardId);
+        card?.tasks.push(taskRes);
       }),
     );
 
@@ -55,11 +86,16 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     );
 
     //TODO: zapisac nowy tytuł karty w DB
+    try {
+    } catch (err) {
+      setErrorHandle(err);
+    }
   }, []);
 
   const getAllProjects = useCallback(async () => {
     try {
       const myProjectsList = await fetchApi.get<AllProjectsResponse[]>('/project');
+      console.log('2.1 getAllProjects:', myProjectsList);
 
       myProjectsList && setProject((prev) => ({ ...prev, myProjectsList }));
     } catch (err) {
@@ -69,21 +105,26 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
 
   const getProject = useCallback(async (id: string) => {
     try {
+      if (!id) throw new Error('Brak ID projektu');
+
       const projectRes = await fetchApi.get<ProjectEntityResponse>(`/project/${id}`);
+      console.log('3.1 getProject:', projectRes);
 
       projectRes &&
-        setProject((prev) => ({
-          ...prev,
-          title: projectRes?.title,
-          background: projectRes?.background,
-          id: projectRes?.id,
-          cardsId: projectRes?.cardsId,
-        }));
+        setProject(
+          produce((draft) => {
+            draft.title = projectRes.title;
+            draft.background = projectRes.background;
+            draft.id = projectRes.id;
+            draft.cardsId = projectRes.cardsId;
+            draft.cards = projectRes.cards;
+          }),
+        );
 
       const settings: UserSettingsRequest = {
         settings: {
           activeIdProject: id,
-        }
+        },
       };
 
       await fetchApi.put(`/user`, settings);
@@ -95,23 +136,13 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     }
   }, []);
 
-  const setNewProject = useCallback(async (title: string, background: string) => {
-    try {
-      const settings = await fetchApi.post<UserSettingsEntity>('/project', { title, background });
-      await getAllProjects();
-
-      settings && updateUserSettings(settings);
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
-
   const value = {
     ...project,
     setNewProject,
     setCard,
     setNewTitleCard,
     setTask,
+    // setNewDataTask,
     showModalEditTask,
     setShowModalEditTask,
     showMenuNewProject,
