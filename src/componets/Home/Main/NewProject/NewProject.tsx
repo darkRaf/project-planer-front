@@ -41,7 +41,7 @@ export const NewProject = () => {
 
   const onClickHandle = (e: globalThis.MouseEvent) => {
     if (checkClickOutSide(e, divRef)) return;
-    
+
     setShowMenuNewProject(false);
   };
 
@@ -56,8 +56,16 @@ export const NewProject = () => {
 
   const onSubmitHandle = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (formProject.title.length < 3) setErrorHandle('');
-    // TODO: dodac walidacje
+
+    if (formProject.title.length < 3) {
+      setErrorHandle('Tytuł musi zawierać od 3 do 50 znaków.');
+      return;
+    }
+    if (formProject.background === '') {
+      setErrorHandle('Musisz wybrać tło.');
+      return;
+    }
+    
     setNewProject(formProject.title, formProject.background);
     onCloseHandle();
   };
