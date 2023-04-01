@@ -5,14 +5,13 @@ import { ProjectContext } from '../../../../../../Contexts/ProjectContext/Projec
 import DriveFileRenameOutlineRoundedIcon from '@mui/icons-material/DriveFileRenameOutlineRounded';
 
 import './Task.css';
-// import { setShowModalEditTask } from '../../../../../../Contexts/ProjectContext/ProjectProvider';
 
 export const Task = ({ id, labels, title }: TaskEntity) => {
   const { setShowModalEditTask } = useContext(ProjectContext);
 
   return (
     <div id={id} className="task">
-      <div className="task-pen" onClick={() => setShowModalEditTask(id)}>
+      <div className="task-pen" onClick={() => setShowModalEditTask(id as string)}>
         <DriveFileRenameOutlineRoundedIcon />
       </div>
       <Label labels={labels} />

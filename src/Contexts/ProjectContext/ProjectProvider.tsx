@@ -38,7 +38,6 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
       settings && updateUserSettings(settings);
 
       await getAllProjects();
-      // TODO: ustaw nowy projekt jako aktualny!
     } catch (err) {
       console.log(err);
     }
