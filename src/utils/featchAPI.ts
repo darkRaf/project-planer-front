@@ -89,7 +89,7 @@ class FetchApi {
     await this.fetch();
   };
 
-  put = async <T>(endpoint: string, body: UserSettingsRequest ): Promise<T | undefined> => {
+  put = async <T>(endpoint: string, body: Object | null = null ): Promise<T | undefined> => {
     this.method = 'PUT';
     this.ednpoint = endpoint;
     this.body = (body) ? JSON.stringify(body) : null;

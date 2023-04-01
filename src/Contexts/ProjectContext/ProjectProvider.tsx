@@ -2,6 +2,7 @@ import { ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { defaultProject, ProjectContext } from './ProjectContext';
 import {
   AllProjectsResponse,
+  CardEntity,
   CardResponse,
   ProjectEntityResponse,
   TaskEntity,
@@ -72,15 +73,18 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
         card?.tasks.push(taskRes);
       }),
     );
-
-    //TODO: zapisac nowy task w DB
   }, []);
 
-  const setNewTitleCard = useCallback((idCard: string, titleCard: string) => {
+  const changeCardTitle = useCallback(async (idCard: string, title: string) => {
+    const res = await fetchApi.put<{ status: string }>(`/card/${idCard}`, { title });
+    console.log('changeCardTitle:', res);
+
+    if (!res) return;
+
     setProject(
       produce((draft) => {
         const card = draft.cards.find((card) => card.id === idCard);
-        if (card) card.title = titleCard;
+        if (card) card.title = title;
       }),
     );
 
@@ -139,7 +143,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     ...project,
     setNewProject,
     setCard,
-    setNewTitleCard,
+    changeCardTitle,
     setTask,
     // setNewDataTask,
     showModalEditTask,

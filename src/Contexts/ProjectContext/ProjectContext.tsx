@@ -4,7 +4,7 @@ import { AllProjectsResponse, ProjectEntityResponse, ProjectResponseData } from 
 export interface ProjectContext extends ProjectResponseData {
   setNewProject: (title: string, background: string) => Promise<void>;
   setCard: (titleCard: string, id: string) => void;
-  setNewTitleCard: (idCard: string, titleTask: string) => void;
+  changeCardTitle: (idCard: string, titleTask: string) => void;
   setTask: (idCard: string, titleTask: string) => void;
   showModalEditTask: string;
   setShowModalEditTask: Dispatch<React.SetStateAction<string>>;
@@ -25,7 +25,7 @@ export const defaultProject: ProjectContext = {
   background: '',
   setNewProject: async () => {},
   setCard: () => {},
-  setNewTitleCard: () => {},
+  changeCardTitle: () => {},
   setTask: () => {},
   showModalEditTask: '',
   setShowModalEditTask: () => {},
