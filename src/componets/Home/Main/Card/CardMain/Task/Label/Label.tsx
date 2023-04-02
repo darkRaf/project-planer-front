@@ -4,15 +4,13 @@ import { Priorities } from 'types';
 import './Label.css';
 
 type LabelProps = {
-  labels: Priorities[];
+  labels: Priorities;
 };
 
-export const Label = (props: LabelProps) => {
+export const Label = ({ labels }: LabelProps) => {
   return (
-    <div className='labels-container'>
-      {props.labels.map((label) => (
-        <div key={label} className={`${label}-priority label`}></div>
-      ))}
+    <div className="labels-container">
+      <div className={`${labels}-priority label`}></div>
     </div>
   );
 };
