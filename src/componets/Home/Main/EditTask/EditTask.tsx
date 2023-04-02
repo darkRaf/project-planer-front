@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../../../Contexts/UserContext/UserContext';
 import { ProjectContext } from '../../../../Contexts/ProjectContext/ProjectContext';
-import { TaskEntity } from '../../../../../../project-planer-back/types/taskEntyti';
+import { TaskEntity, TaskBodyEntity, Priorities } from 'types';
 import { EditHeader } from './EditHeader/EditHeader';
 import { EditBody } from './EditBody/EditBody';
 import { EditAside } from './EditAside/EditAside';
@@ -12,14 +12,14 @@ import './EditTask.css';
 
 export const EditTask = () => {
   const { setErrorHandle } = useContext(UserContext);
-  const { showModalEditTask, setShowModalEditTask } = useContext(ProjectContext);
+  const { showModalEditTask, setShowModalEditTask, changeTaskBody } = useContext(ProjectContext);
 
   const [showContainer, setShowContainer] = useState(false);
   const [loader, setLoader] = useState(true);
   const [taskData, setTaskData] = useState<TaskEntity>({
     id: '',
     title: '',
-    labels: [],
+    labels: Priorities.Undefined,
     body: { description: '', checkList: [], deadline: '' },
     addedAt: '',
   });
@@ -33,7 +33,7 @@ export const EditTask = () => {
     const task = await fetchApi.get<TaskEntity>(`/task/${showModalEditTask}`);
 
     if (!task) {
-      setErrorHandle('Bład pobierania danych');
+      setErrorHandle('Błąd pobierania danych.');
       setShowModalEditTask('');
       return;
     }
@@ -42,18 +42,44 @@ export const EditTask = () => {
     setLoader(false);
   };
 
+  const changeTaskData = (key: keyof TaskEntity, val: string) => {
+    setTaskData((prev) => ({
+      ...prev,
+      [key]: val,
+    }));
+  };
+
+  const changeTaskBodyHandle = (key: keyof TaskBodyEntity, val: string) => {
+    setTaskData((prev) => ({
+      ...prev,
+      body: {
+        ...prev.body,
+        [key]: val,
+      },
+    }));
+  };
+
+  const saveChangedToTask = () => {
+    changeTaskBody(taskData);
+  };
+
   return (
     <>
       <div className="edit-task-bg"></div>
       <div className={`edit-task-container ${showContainer && 'show-edit-task'}`}>
-        <EditHeader title={taskData.title} />
+        <EditHeader title={taskData.title} changeData={changeTaskData} />
         <div className={`edit-task-main ${loader ? 'main-loader' : ''}`}>
           {loader ? (
             <Loader />
           ) : (
             <>
-              <EditBody body={taskData.body} />
-              <EditAside />
+              <EditBody
+                taskData={taskData}
+                changeData={changeTaskData}
+                changeBody={changeTaskBodyHandle}
+                sendData={saveChangedToTask}
+              />
+              <EditAside taskData={taskData} changeBody={changeTaskData} />
             </>
           )}
         </div>
