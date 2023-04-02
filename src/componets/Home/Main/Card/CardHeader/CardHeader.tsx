@@ -23,7 +23,6 @@ export const CardHeader = ({ idCard, title, newCard = false, addCard, notAddCard
   const [prevTitleCard, setPrevTitleCard] = useState(title);
   const [showForm, setShowForm] = useState(newCard);
   const [isSelect, setIsSelect] = useState(true);
-  const [error, setError] = useState(false);
 
   const areaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -43,10 +42,13 @@ export const CardHeader = ({ idCard, title, newCard = false, addCard, notAddCard
   const addTitleCard = () => {
     if (showForm) {
       setPrevTitleCard(titleCard);
-      if (typeof addCard !== 'undefined') addCard(titleCard);
+      if (typeof addCard !== 'undefined') {
+        addCard(titleCard);
+      } else {
+        changeCardTitle(idCard, titleCard);
+      }
     }
 
-    changeCardTitle(idCard, titleCard);
     setShowForm(false);
     setIsSelect(true);
   };
@@ -68,8 +70,6 @@ export const CardHeader = ({ idCard, title, newCard = false, addCard, notAddCard
 
     if (titleCard.length) {
       addTitleCard();
-      setShowForm(false);
-      setIsSelect(true);
       return;
     }
 
