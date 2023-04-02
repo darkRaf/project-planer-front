@@ -17,9 +17,8 @@ export const Card = (props: CardProps) => {
   const [clickNewCard, setClickNewCard] = useState(false);
 
   const addCardHandle = (title: string) => {
-    setClickNewCard(false);
     setCard(title, projectId);
-    console.log(`click new card: ${title}`);
+    setClickNewCard(false);
   };
 
   if (props.card === null) {
