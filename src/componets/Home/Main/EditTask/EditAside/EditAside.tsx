@@ -1,10 +1,41 @@
 import React, { CSSProperties, useEffect, useState } from 'react';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
+import { Priorities, TaskEntity } from 'types';
 
 import './EditAside.css';
+import { BtnSetLabel } from './BtnSetLabel/BtnSetLabel';
 
-export const EditAside = () => {
+type EditButtonEntity = {
+  name: string;
+  value: Priorities;
+};
+
+const editTaskButtonsList: EditButtonEntity[] = [
+  {
+    name: 'Wysoki',
+    value: Priorities.High,
+  },
+  {
+    name: 'Średni',
+    value: Priorities.Medium,
+  },
+  {
+    name: 'Niski',
+    value: Priorities.Low,
+  },
+  {
+    name: 'Nie zdefiniowany',
+    value: Priorities.Undefined,
+  },
+];
+
+type EditAsideProps = {
+  taskData: TaskEntity;
+  changeBody: (key: keyof TaskEntity, val: string) => void;
+};
+
+export const EditAside = ({ taskData, changeBody }: EditAsideProps) => {
   const [showBtn, setShowBtn] = useState(false);
 
   const delay = (num: number) => ({ '--delay': num } as CSSProperties);
@@ -12,6 +43,10 @@ export const EditAside = () => {
   useEffect(() => {
     setShowBtn(true);
   }, []);
+
+  // const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  //   changeBody('labels', e.target.value)
+  // }
 
   return (
     <div className="edit-task-aside">
@@ -21,31 +56,17 @@ export const EditAside = () => {
             <KeyboardArrowDownRoundedIcon />
             <span>Priorytety</span>
           </li>
-          <li className="edit-task-btn" style={delay(2)}>
-            <label>
-              <input type="radio" value="dddd" name="label" />
-              Wysoki
-            </label>
-          </li>
-          <li className="edit-task-btn" style={delay(3)}>
-            <label>
-              <input type="radio" value="" name="label" />
-              Średni
-            </label>
-          </li>
-          <li className="edit-task-btn" style={delay(4)}>
-            <label>
-              <input type="radio" value="" name="label" />
-              Niski
-            </label>
-          </li>
-          <li className="edit-task-btn" style={delay(5)}>
-            <label>
-              <input type="radio" value="" name="label" />
-              Standardowy
-            </label>
-          </li>
-          <li className="edit-task-btn delete-task" style={delay(6)}>
+          {editTaskButtonsList.map((btn, index) => (
+            <BtnSetLabel
+              key={btn.name}
+              labelName={btn.name}
+              value={btn.value}
+              delayNum={index + 1}
+              taskData={taskData}
+              changeBody={changeBody}
+            />
+          ))}
+          <li className="edit-task-btn delete-task" style={delay(editTaskButtonsList.length + 2)}>
             <DeleteForeverRoundedIcon />
             Usuń
           </li>
