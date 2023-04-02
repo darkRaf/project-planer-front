@@ -40,10 +40,22 @@
   margin-left: 15px;
   padding: 4px 10px;
   width: 100%;
-  height: 100%;
-  background-color: red;
+  height: 15px;
   box-shadow: var(--shadow-up);
   border-radius: var(--radius-small);
+}
+
+.label-hight {
+  background-color: var(--hight-priority);
+}
+.label-medium {
+  background-color: var(--medium-priority);
+}
+.label-low {
+  background-color: var(--low-priority);
+}
+.label-undefined {
+  background-color: var(--undefined-priority);
 }
 
 .task-description {

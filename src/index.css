@@ -34,10 +34,10 @@
   --mask-color-dark01: rgba(0, 0, 0, 0.05);
   --mask-color-dark02: rgba(0, 0, 0, 0.2);
 
-  --high-priority: rgb(255, 38, 38);
+  --hight-priority: rgb(255, 38, 38);
   --medium-priority: rgb(255, 255, 25);
   --low-priority: rgb(50, 201, 50);
-  --undefind-priority: rgb(22, 84, 255);
+  --undefined-priority: rgb(228, 228, 228);
 
   --shadow: 0 0 16px rgba(0, 0, 0, 0.1), 0 0 8px rgba(0, 0, 0, 0.1);
   --shadow-up: 0 0 14px rgba(0, 0, 0, 0.2), 0 0 12px rgba(0, 0, 0, 0.2);
@@ -54,10 +54,15 @@
   --scrollbar-thumb: rgb(9, 32, 63);
 }
 body {
-  margin: 0;
   font-family: -apple-system, 'Source Sans Pro', 'Roboto', 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
 
   color: rgb(var(--base-text-color-l));
   background-color: rgb(var(--color-500));
