@@ -2,7 +2,6 @@ import { ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { defaultProject, ProjectContext } from './ProjectContext';
 import {
   AllProjectsResponse,
-  CardEntity,
   CardResponse,
   ProjectEntityResponse,
   TaskEntity,
@@ -62,34 +61,76 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
   }, []);
 
   const setTask = useCallback(async (cardId: string, title: string) => {
-    const taskRes = await fetchApi.post<TaskEntity>('/task', { title, cardId });
-    console.log('setTask', taskRes);
+    try {
+      const taskRes = await fetchApi.post<TaskEntity>('/task', { title, cardId });
+      console.log('setTask', taskRes);
 
-    if (!taskRes) return;
+      if (!taskRes) return;
 
-    setProject(
-      produce((draft) => {
-        const card = draft.cards.find((card) => card.id === cardId);
-        card?.tasks.push(taskRes);
-      }),
-    );
+      setProject(
+        produce((draft) => {
+          const card = draft.cards.find((card) => card.id === cardId);
+          card?.tasks.push(taskRes);
+          taskRes.id && card?.tasksId.push(taskRes.id);
+        }),
+      );
+    } catch (err) {
+      setErrorHandle(err);
+    }
   }, []);
 
   const changeCardTitle = useCallback(async (idCard: string, title: string) => {
-    const res = await fetchApi.put<{ status: string }>(`/card/${idCard}`, { title });
-    console.log('changeCardTitle:', res);
-
-    if (!res) return;
-
-    setProject(
-      produce((draft) => {
-        const card = draft.cards.find((card) => card.id === idCard);
-        if (card) card.title = title;
-      }),
-    );
-
-    //TODO: zapisac nowy tytuł karty w DB
     try {
+      const res = await fetchApi.put<{ status: string }>(`/card/${idCard}`, { title });
+      console.log('changeCardTitle:', res);
+
+      if (!res) return;
+
+      setProject(
+        produce((draft) => {
+          const card = draft.cards.find((card) => card.id === idCard);
+          if (card) card.title = title;
+        }),
+      );
+    } catch (err) {
+      setErrorHandle(err);
+    }
+  }, []);
+
+  const changeTaskBody = useCallback(async (taskObj: TaskEntity) => {
+    try {
+      if (!taskObj.id) return;
+
+      const res = await fetchApi.put<{ status: string }>(`/task/${taskObj.id}`, taskObj);
+
+      if (!res) return;
+      console.log('changeTaskBody:', res);
+
+      setProject(
+        produce((draft) => {
+          let serchedIdCard = '';
+
+          for (const card of draft.cards) {
+            if (!taskObj.id) return;
+            if (card.tasksId.includes(taskObj.id)) serchedIdCard = card.id;
+          }
+
+          const card = draft.cards.find((card) => card.id === serchedIdCard);
+
+          if (card) {
+            let task = card.tasks.find((task) => task.id === taskObj.id);
+            if (task) {
+              task.id = taskObj.id;
+              task.title = taskObj.title;
+              task.labels = taskObj.labels;
+              task.body = taskObj.body;
+              task.addedAt = taskObj.addedAt;
+            }
+          }
+        }),
+      );
+
+      setShowModalEditTask('');
     } catch (err) {
       setErrorHandle(err);
     }
@@ -145,7 +186,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     setCard,
     changeCardTitle,
     setTask,
-    // setNewDataTask,
+    changeTaskBody,
     showModalEditTask,
     setShowModalEditTask,
     showMenuNewProject,
