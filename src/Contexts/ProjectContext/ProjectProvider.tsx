@@ -34,10 +34,13 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
 
   const setNewProject = useCallback(async (title: string, background: string) => {
     try {
-      const settings = await fetchApi.post<UserSettingsEntity>('/project', { title, background });
-      settings && updateUserSettings(settings);
-
+      const settingsRes = await fetchApi.post<UserSettingsEntity>('/project', { title, background });
+      
+      if (!settingsRes) return;
+      
+      updateUserSettings(settingsRes);
       await getAllProjects();
+      await getProject(settingsRes.activeIdProject);
     } catch (err) {
       console.log(err);
     }
@@ -136,6 +139,19 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     }
   }, []);
 
+  const deleteTask = useCallback(async (idCart: string, idTask: string) => {
+    try {
+      const res = await fetchApi.delete<{ status: string }>(`/task/${idCart}/${idTask}`);
+      console.log('changeTaskBody:', res);
+
+      await getProject(settings.activeIdProject);
+
+      setShowModalEditTask('');
+    } catch (err) {
+      setErrorHandle(err);
+    }
+  }, []);
+
   const getAllProjects = useCallback(async () => {
     try {
       const myProjectsList = await fetchApi.get<AllProjectsResponse[]>('/project');
@@ -191,6 +207,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     setShowModalEditTask,
     showMenuNewProject,
     setShowMenuNewProject,
+    deleteTask,
     getAllProjects,
     getProject,
   };

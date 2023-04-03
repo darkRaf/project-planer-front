@@ -3,10 +3,11 @@ import { TaskEntity } from 'types';
 import { Label } from './Label/Label';
 import { ProjectContext } from '../../../../../../Contexts/ProjectContext/ProjectContext';
 import DriveFileRenameOutlineRoundedIcon from '@mui/icons-material/DriveFileRenameOutlineRounded';
+import SubjectRoundedIcon from '@mui/icons-material/SubjectRounded';
 
 import './Task.css';
 
-export const Task = ({ id, labels, title }: TaskEntity) => {
+export const Task = ({ id, labels, title, body }: TaskEntity) => {
   const { setShowModalEditTask } = useContext(ProjectContext);
 
   return (
@@ -17,6 +18,9 @@ export const Task = ({ id, labels, title }: TaskEntity) => {
       <Label labels={labels} />
       <div className="task-main">
         <h3 className="task-title">{title}</h3>
+        <div>
+          {body.description && <SubjectRoundedIcon />}
+        </div>
       </div>
     </div>
   );

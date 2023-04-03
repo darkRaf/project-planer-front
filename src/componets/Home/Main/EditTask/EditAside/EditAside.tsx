@@ -1,10 +1,11 @@
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, { CSSProperties, useContext, useEffect, useState } from 'react';
+import { ProjectContext } from '../../../../../Contexts/ProjectContext/ProjectContext';
+import { Priorities, TaskEntity } from 'types';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
-import { Priorities, TaskEntity } from 'types';
+import { BtnSetLabel } from './BtnSetLabel/BtnSetLabel';
 
 import './EditAside.css';
-import { BtnSetLabel } from './BtnSetLabel/BtnSetLabel';
 
 type EditButtonEntity = {
   name: string;
@@ -36,17 +37,25 @@ type EditAsideProps = {
 };
 
 export const EditAside = ({ taskData, changeBody }: EditAsideProps) => {
+  const { cards, deleteTask } = useContext(ProjectContext);
+
   const [showBtn, setShowBtn] = useState(false);
+  const [taskId, setTaskId] = useState(taskData.id as string);
+  const [cardId, setCardId] = useState('');
 
   const delay = (num: number) => ({ '--delay': num } as CSSProperties);
 
   useEffect(() => {
     setShowBtn(true);
+    getCardId();
   }, []);
 
-  // const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-  //   changeBody('labels', e.target.value)
-  // }
+  const getCardId = () => {
+    console.log(cards);
+    for (const card of cards) {
+      if (card.tasksId.includes(taskId)) setCardId(card.id);
+    }
+  };
 
   return (
     <div className="edit-task-aside">
@@ -66,7 +75,11 @@ export const EditAside = ({ taskData, changeBody }: EditAsideProps) => {
               changeBody={changeBody}
             />
           ))}
-          <li className="edit-task-btn delete-task" style={delay(editTaskButtonsList.length + 2)}>
+          <li
+            className="edit-task-btn delete-task"
+            style={delay(editTaskButtonsList.length + 2)}
+            onClick={() => deleteTask(cardId, taskId)}
+          >
             <DeleteForeverRoundedIcon />
             Usuń
           </li>
