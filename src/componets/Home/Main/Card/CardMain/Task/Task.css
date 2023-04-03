@@ -10,7 +10,6 @@
   border-radius: var(--radius-small);
   box-shadow: var(--shadow-card);
   transition: box-shadow linear 0.2s, background linear 0.2s;
-  cursor: pointer;
   z-index: 0;
 }
 
@@ -44,13 +43,12 @@
 
 .task-main {
   display: flex;
-  flex-direction: row;
-  padding-left: 10px;
+  flex-direction: column;
+  padding-left: 20px;
   width: 100%;
 }
 
 .task-title {
-  margin-left: 10px;
   width: 100%;
   font-weight: 400;
   font-size: 1rem;

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Task } from './Task/Task';
+import { TaskEntity } from 'types';
 
 import './CardMain.css';
-import { TaskEntity } from 'types';
 
 type PropsCardMain = {
   tasks: TaskEntity[];

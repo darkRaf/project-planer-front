@@ -11,7 +11,7 @@ type CardProps = {
   card: CardResponse | null;
 };
 
-export const Card = (props: CardProps) => {
+export const Card = ({ card }: CardProps) => {
   const { setCard, id: projectId } = useContext(ProjectContext);
 
   const [clickNewCard, setClickNewCard] = useState(false);
@@ -21,7 +21,7 @@ export const Card = (props: CardProps) => {
     setClickNewCard(false);
   };
 
-  if (props.card === null) {
+  if (card === null) {
     return (
       <div className="card">
         {clickNewCard ? (
@@ -33,7 +33,7 @@ export const Card = (props: CardProps) => {
     );
   }
 
-  const { id, title, tasks } = props.card;
+  const { id, title, tasks } = card;
 
   return (
     <div className="card">
