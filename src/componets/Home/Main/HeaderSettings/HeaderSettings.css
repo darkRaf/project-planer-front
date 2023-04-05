@@ -4,8 +4,8 @@
   display: flex;
   flex-direction: column;
   width: 230px; 
-  top: 10px;
-  right: 0;
+  top: 20px;
+  right: 10px;
   padding: 10px;
   color: rgb(var(--base-text-color-d));
   background-color: white;
@@ -14,11 +14,12 @@
   opacity: 0;
   transition: all linear .3s;
   cursor: default;
+  z-index: 1000;
 }
 
 .show-settings {
   visibility: visible;
-  top: 40px;
+  top: 60px;
   opacity: 1;
 }
 

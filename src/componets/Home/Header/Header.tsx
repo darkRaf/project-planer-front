@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from '../../../Contexts/UserContext/UserContext';
+import { ModalTypes, ProjectContext } from '../../../Contexts/ProjectContext/ProjectContext';
 
 import './Header.css';
-import { HeaderSettings } from './HeaderSettings/HeaderSettings';
 
 type HeaderProps = {
   id: string;
@@ -10,11 +10,14 @@ type HeaderProps = {
 };
 
 export const Header = (props: HeaderProps) => {
+  const { showModal, setShowModal } = useContext(ProjectContext);
   const {
     settings: { avatarImg },
   } = useContext(UserContext);
 
-  const [showMenu, setShowMenu] = useState(false);
+  const showUserMenuHandle = () => {
+    showModal === ModalTypes.UserMenu ? setShowModal(ModalTypes.None) : setShowModal(ModalTypes.UserMenu);
+  }
 
   return (
     <header className="header">
@@ -24,9 +27,8 @@ export const Header = (props: HeaderProps) => {
       </div>
       <div className="header-section table-name">{props.title || 'Dodaj nowy projekt'}</div>
       <div className="header-section">
-        <div className="header-avatar-box" onClick={() => setShowMenu(!showMenu)}>
+        <div className="header-avatar-box" onClick={showUserMenuHandle}>
           <img src={`./images/avatars/${avatarImg}`} alt="Avatar" />
-          {showMenu && <HeaderSettings setShowMenu={setShowMenu} showMenu={showMenu}/>}
         </div>
       </div>
     </header>

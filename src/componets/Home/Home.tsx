@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Aside } from './Aside/Aside';
 import { Container } from './Container/Container';
 import { Header } from './Header/Header';
-import { ProjectContext } from '../../Contexts/ProjectContext/ProjectContext';
+import { ModalTypes, ProjectContext } from '../../Contexts/ProjectContext/ProjectContext';
 import { UserContext } from '../../Contexts/UserContext/UserContext';
 import { Alert, Snackbar } from '@mui/material';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
@@ -11,19 +11,21 @@ import { NewProject } from './Main/NewProject/NewProject';
 import { Card } from './Main/Card/Card';
 
 import './Home.css';
+import { HeaderSettings } from './Main/HeaderSettings/HeaderSettings';
 
 const Home = () => {
-  const { error, setErrorHandle } = useContext(UserContext);
-  const { cards, id, title, showModalEditTask, showMenuNewProject, newPosition } = useContext(ProjectContext);
+  const { message, setMessage } = useContext(UserContext);
+  const { cards, id, title, showModalEditTask, showMenuNewProject, newPosition, showModal } =
+    useContext(ProjectContext);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    error && setOpen(true);
-  }, [error]);
+    message.message && setOpen(true);
+  }, [message.message]);
 
   const handleClose = () => {
     setOpen(false);
-    setErrorHandle('');
+    setMessage('info', '');
   };
 
   const onDragEndHandler = (result: DropResult) => {
@@ -42,9 +44,6 @@ const Home = () => {
 
       <DragDropContext onDragEnd={onDragEndHandler}>
         <div className="main-container">
-          {showModalEditTask && <EditTask />}
-          {showMenuNewProject && <NewProject />}
-
           {cards.map((card, index) => (
             <Card key={card.id} card={card} />
           ))}
@@ -59,10 +58,13 @@ const Home = () => {
         autoHideDuration={5000}
         onClose={handleClose}
       >
-        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-          {error}
+        <Alert onClose={handleClose} severity={message.severity} sx={{ width: '100%' }}>
+          {message.message}
         </Alert>
       </Snackbar>
+      {showModalEditTask && <EditTask />}
+      {showMenuNewProject && <NewProject />}
+      {showModal === ModalTypes.UserMenu && <HeaderSettings />}
     </Container>
   );
 };

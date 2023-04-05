@@ -1,43 +1,37 @@
-import React, { useContext, useEffect, useRef, useState, Dispatch } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { UserContext } from '../../../../Contexts/UserContext/UserContext';
+import { ModalTypes, ProjectContext } from '../../../../Contexts/ProjectContext/ProjectContext';
 import { checkClickOutSide } from '../../../../utils/checkClickOutSide';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 
 import './HeaderSettings.css';
 
-type HeaderSettingsProps = {
-  showMenu: boolean;
-  setShowMenu: Dispatch<React.SetStateAction<boolean>>;
-};
-
-export const HeaderSettings = ({ showMenu, setShowMenu }: HeaderSettingsProps) => {
+export const HeaderSettings = () => {
   const { onLogout } = useContext(UserContext);
+  const { showModal, setShowModal } = useContext(ProjectContext);
   const [addClass, setaddClass] = useState('');
   const divRef = useRef(null);
 
   useEffect(() => {
     setaddClass('show-settings');
 
-    if (showMenu) {
-      document.addEventListener('mousedown', onClickHandle);
-    }
+    showModal === ModalTypes.UserMenu && document.addEventListener('mousedown', onClickHandle);
 
-    return () => {
-      document.removeEventListener('mousedown', onClickHandle);
-    };
+    return () => document.removeEventListener('mousedown', onClickHandle);
   }, []);
 
   const onClickHandle = (e: globalThis.MouseEvent) => {
     if (checkClickOutSide(e, divRef)) return;
 
-    setShowMenu(false);
+    setShowModal(ModalTypes.None)
   };
 
   const onSettingsHanlder = () => {
     // TODO: komponent ustawienia.
     console.log('modal ustawienia.');
-    setShowMenu(false);
+
+    setShowModal(ModalTypes.None)
   };
 
   return (
