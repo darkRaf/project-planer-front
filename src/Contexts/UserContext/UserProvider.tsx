@@ -22,7 +22,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
   const setErrorHandle = (err: Error | unknown) => {
     console.log(err);
-    const message = err instanceof Error ? err.message : 'Nieznany błąd.';
+    const message = err instanceof Error ? err.message : err as string;
 
     setUser((prev) => ({
       ...prev,

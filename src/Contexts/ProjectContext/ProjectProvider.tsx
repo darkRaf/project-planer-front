@@ -11,6 +11,7 @@ import {
 import produce from 'immer';
 import { fetchApi } from '../../utils/featchAPI';
 import { UserContext } from '../UserContext/UserContext';
+import { DraggableLocation } from 'react-beautiful-dnd';
 
 type ProjectProviderProps = {
   children: ReactNode;
@@ -35,14 +36,14 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
   const setNewProject = useCallback(async (title: string, background: string) => {
     try {
       const settingsRes = await fetchApi.post<UserSettingsEntity>('/project', { title, background });
-      
+
       if (!settingsRes) return;
-      
+
       updateUserSettings(settingsRes);
       await getAllProjects();
       await getProject(settingsRes.activeIdProject);
     } catch (err) {
-      console.log(err);
+      setErrorHandle(err);
     }
   }, []);
 
@@ -196,6 +197,49 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     }
   }, []);
 
+  const newPosition = async (source: DraggableLocation, destination: DraggableLocation, draggableId: string) => {
+    let newStartTaskList;
+    let newFinisTaskList;
+
+    setProject(
+      produce((draft) => {
+        const startCard = draft.cards.find((card) => card.id === source.droppableId);
+        const finishCard = draft.cards.find((card) => card.id === destination.droppableId);
+
+        const task = startCard?.tasks.find((task) => task.id === draggableId);
+        const newTask = JSON.parse(JSON.stringify(task));
+        if (startCard === finishCard) {
+          startCard?.tasks.splice(source.index, 1);
+          startCard?.tasks.splice(destination.index, 0, newTask);
+
+          startCard?.tasksId.splice(source.index, 1);
+          startCard?.tasksId.splice(destination.index, 0, draggableId);
+          newStartTaskList = JSON.parse(JSON.stringify(startCard?.tasksId));
+        } else {
+          startCard?.tasks.splice(source.index, 1);
+          startCard?.tasksId.splice(source.index, 1);
+          newStartTaskList = JSON.parse(JSON.stringify(startCard?.tasksId));
+          
+          finishCard?.tasks.splice(destination.index, 0, newTask);
+          finishCard?.tasksId.splice(destination.index, 0, draggableId);
+          newFinisTaskList = JSON.parse(JSON.stringify(finishCard?.tasksId));
+        }
+      }),
+    );
+
+    try {
+      if (newStartTaskList) {
+        await fetchApi.put(`/card/${source.droppableId}`, { tasksId: newStartTaskList });
+      }
+
+      if (newFinisTaskList) {
+        await fetchApi.put(`/card/${destination.droppableId}`, { tasksId: newFinisTaskList });
+      }
+    } catch (err) {
+      setErrorHandle(err);
+    }
+  };
+
   const value = {
     ...project,
     setNewProject,
@@ -210,6 +254,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     deleteTask,
     getAllProjects,
     getProject,
+    newPosition,
   };
 
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>;

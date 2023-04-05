@@ -1,4 +1,5 @@
 import { createContext, Dispatch } from 'react';
+import { DraggableLocation } from 'react-beautiful-dnd';
 import { AllProjectsResponse, ProjectEntityResponse, ProjectResponseData, TaskEntity } from 'types';
 
 export interface ProjectContext extends ProjectResponseData {
@@ -15,6 +16,7 @@ export interface ProjectContext extends ProjectResponseData {
   getAllProjects: () => Promise<void>;
   myProjectsList: AllProjectsResponse[];
   getProject: (id: string) => Promise<void>;
+  newPosition: (source: DraggableLocation, destination: DraggableLocation, draggableId: string) => Promise<void>;
 }
 
 export const defaultProject: ProjectContext = {
@@ -37,6 +39,7 @@ export const defaultProject: ProjectContext = {
   deleteTask: async () => {},
   getAllProjects: async () => {},
   getProject: async () => {},
+  newPosition: async () => {},
 };
 
 export const ProjectContext = createContext(defaultProject);
