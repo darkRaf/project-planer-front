@@ -8,7 +8,7 @@ import { LoginInput } from '../../Commpare/LoginInput/LoginInput';
 import './LoginForm.css';
 
 export const LoginForm = () => {
-  const { auth, onLogin, email, error } = useContext(UserContext);
+  const { auth, onLogin, email, message } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const [loginForm, setLoginFrom] = useState({
     email,
@@ -21,7 +21,7 @@ export const LoginForm = () => {
       ...prev,
       password: '',
     }));
-  }, [error]);
+  }, [message.message]);
 
   const changeInputHandle = (key: string, val: string) => {
     setLoginFrom((prev) => ({
@@ -42,7 +42,7 @@ export const LoginForm = () => {
 
   return (
     <form className="form" onSubmit={sendForm}>
-      {error !== '' ? <p className="error-box">{error}</p> : null}
+      {message.message !== '' ? <p className="error-box">{message.message}</p> : null}
       <LoginInput
         id="email"
         type="email"

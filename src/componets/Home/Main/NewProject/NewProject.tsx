@@ -8,7 +8,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import './NewProject.css';
 
 export const NewProject = () => {
-  const { setErrorHandle } = useContext(UserContext);
+  const { setMessage } = useContext(UserContext);
   const { showMenuNewProject, setShowMenuNewProject, setNewProject } = useContext(ProjectContext);
 
   const [addClass, setaddClass] = useState('');
@@ -58,14 +58,14 @@ export const NewProject = () => {
     e.preventDefault();
 
     if (formProject.title.length < 3) {
-      setErrorHandle('Tytuł musi zawierać od 3 do 50 znaków.');
+      setMessage('warning', 'Tytuł musi zawierać od 3 do 50 znaków.');
       return;
     }
     if (formProject.background === '') {
-      setErrorHandle('Musisz wybrać tło.');
+      setMessage('warning', 'Musisz wybrać tło.');
       return;
     }
-    
+
     setNewProject(formProject.title, formProject.background);
     onCloseHandle();
   };

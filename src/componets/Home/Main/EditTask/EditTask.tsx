@@ -11,7 +11,7 @@ import { fetchApi } from '../../../../utils/featchAPI';
 import './EditTask.css';
 
 export const EditTask = () => {
-  const { setErrorHandle } = useContext(UserContext);
+  const { setMessage } = useContext(UserContext);
   const { showModalEditTask, setShowModalEditTask, changeTaskBody } = useContext(ProjectContext);
 
   const [showContainer, setShowContainer] = useState(false);
@@ -33,7 +33,7 @@ export const EditTask = () => {
     const task = await fetchApi.get<TaskEntity>(`/task/${showModalEditTask}`);
 
     if (!task) {
-      setErrorHandle('Błąd pobierania danych.');
+      setMessage('error', 'Błąd pobierania danych.');
       setShowModalEditTask('');
       return;
     }

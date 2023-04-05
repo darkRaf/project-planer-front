@@ -16,7 +16,7 @@ type Props = {
 };
 
 export const CardHeader = ({ idCard, title, newCard = false, addCard, notAddCard }: Props) => {
-  const { setErrorHandle } = useContext(UserContext);
+  const { setMessage } = useContext(UserContext);
   const { changeCardTitle } = useContext(ProjectContext);
 
   const [titleCard, setTitleCard] = useState(title);
@@ -57,7 +57,7 @@ export const CardHeader = ({ idCard, title, newCard = false, addCard, notAddCard
     const { value } = e.target;
 
     if (value.length > MAX_CARD_TITLE_LENGTH) {
-      setErrorHandle(`Przekroczono ${MAX_CARD_TITLE_LENGTH} znaków!`);
+      setMessage('warning', `Przekroczono ${MAX_CARD_TITLE_LENGTH} znaków!`);
       return;
     }
 

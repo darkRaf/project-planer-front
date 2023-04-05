@@ -17,7 +17,7 @@ type EditBodyProps = {
 };
 
 export const EditBody = ({ taskData, changeData, changeBody, sendData }: EditBodyProps) => {
-  const { setErrorHandle } = useContext(UserContext);
+  const { setMessage } = useContext(UserContext);
 
   const [description, setDescription] = useState(taskData.body.description);
 
@@ -25,7 +25,7 @@ export const EditBody = ({ taskData, changeData, changeBody, sendData }: EditBod
     const { value } = e.target;
 
     if (value.length > MAX_TASK_DESCRIPTION_LENGTH) {
-      setErrorHandle(`Przekroczono ${MAX_TASK_DESCRIPTION_LENGTH} znaków!`);
+      setMessage('warning', `Przekroczono ${MAX_TASK_DESCRIPTION_LENGTH} znaków!`);
       return;
     }
 

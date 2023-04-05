@@ -1,5 +1,11 @@
-import { createContext, Dispatch, SetStateAction } from 'react';
+import { AlertColor } from '@mui/material/Alert/Alert';
+import { createContext } from 'react';
 import { UserSettingsEntity } from 'types';
+
+type PPMessageObj = {
+  severity: AlertColor;
+  message: string;
+};
 
 export type User = {
   auth: boolean;
@@ -7,13 +13,8 @@ export type User = {
   lastName: string;
   email: string;
   settings: UserSettingsEntity;
-  error: string;
+  message: PPMessageObj;
 };
-
-export interface UserContextEntity {
-  user: User;
-  setUser: Dispatch<SetStateAction<User>>;
-}
 
 export type UserRegister = {
   email: string;
@@ -29,12 +30,12 @@ export const defaultUser = {
   lastName: '',
   email: '',
   settings: { avatarImg: '', activeIdProject: '', thema: '' },
-  error: '',
   onLogin: (email: string, password: string) => {},
   onRegister: (user: UserRegister) => {},
   onLogout: () => {},
   updateUserSettings: (settings: UserSettingsEntity) => {},
-  setErrorHandle: (err: Error | unknown) => {},
+  setMessage: (severity: AlertColor, message: Error | string | unknown) => {},
+  message: { severity: ('info') as AlertColor, message: '' },
 };
 
 export const UserContext = createContext(defaultUser);

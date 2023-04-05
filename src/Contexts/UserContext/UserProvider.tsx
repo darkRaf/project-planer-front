@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { fetchApi } from '../../utils/featchAPI';
 import { LoginResponse, RegisterResponse, UserSettingsEntity } from 'types';
 import { User, defaultUser, UserContext, UserRegister } from './UserContext';
+import { AlertColor } from '@mui/material';
 
 type UserProviderProps = {
   children: ReactNode;
@@ -20,13 +21,19 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     }
   }, []);
 
-  const setErrorHandle = (err: Error | unknown) => {
-    console.log(err);
-    const message = err instanceof Error ? err.message : err as string;
+  const setMessage = (severity: AlertColor, message: Error | string | unknown) => {
+    let msg = '';
+
+    if (message instanceof Error) msg = message.message;
+    if (typeof message === 'string') msg = message as string;
+    console.log(`Message: ${msg}`);
 
     setUser((prev) => ({
       ...prev,
-      error: message,
+      message: {
+        severity,
+        message: msg,
+      },
     }));
   };
 
@@ -53,6 +60,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       settings && updateUserSettings(settings);
     } catch (err) {
       console.error(err);
+      // TODO:
     }
   };
 
@@ -75,7 +83,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         }));
       }
     } catch (err: Error | unknown) {
-      setErrorHandle(err);
+      setMessage('error', err);
     } finally {
       document.body.style.cursor = 'default';
       return <Navigate to="/" replace />;
@@ -94,7 +102,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         }));
       }
     } catch (err: Error | unknown) {
-      setErrorHandle(err);
+      setMessage('error', err);
     } finally {
       document.body.style.cursor = 'default';
       <Navigate to="/login" replace />;
@@ -109,7 +117,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
       return <Navigate to="/login" replace />;
     } catch (err: Error | unknown) {
-      setErrorHandle(err);
+      setMessage('error', err);
     }
   };
 
@@ -118,8 +126,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     onLogin: loginHandler,
     onLogout: logoutHandler,
     onRegister: registerHandler,
-    setErrorHandle,
     updateUserSettings,
+    setMessage,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

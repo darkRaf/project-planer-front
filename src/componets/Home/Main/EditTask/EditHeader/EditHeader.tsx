@@ -15,7 +15,7 @@ type EditHeaderProps = {
 };
 
 export const EditHeader = ({ title, changeData }: EditHeaderProps) => {
-  const { setErrorHandle } = useContext(UserContext);
+  const { setMessage } = useContext(UserContext);
   const { setShowModalEditTask } = useContext(ProjectContext);
 
   const [titleTask, setTitleTask] = useState('');
@@ -51,7 +51,7 @@ export const EditHeader = ({ title, changeData }: EditHeaderProps) => {
     const { value } = e.target;
 
     if (value.length > MAX_TASK_LENGTH) {
-      setErrorHandle(`Przekroczono ${MAX_TASK_LENGTH} znaków!`);
+      setMessage('warning', `Przekroczono ${MAX_TASK_LENGTH} znaków!`);
       return;
     }
 

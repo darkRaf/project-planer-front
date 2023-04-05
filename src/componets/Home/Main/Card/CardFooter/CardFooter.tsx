@@ -23,7 +23,7 @@ type CardFooterProps = {
 };
 
 export const CardFooter = ({ isTask, idCard, onClickNewCard }: CardFooterProps) => {
-  const { setErrorHandle } = useContext(UserContext);
+  const { setMessage } = useContext(UserContext);
   const { setTask } = useContext(ProjectContext);
 
   const [showForm, setShowForm] = useState(false);
@@ -51,7 +51,7 @@ export const CardFooter = ({ isTask, idCard, onClickNewCard }: CardFooterProps) 
   const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = e.target;
     if (value.length > MAX_TASK_LENGTH) {
-      setErrorHandle(`Przekroczono ${MAX_TASK_LENGTH} znaków!`);
+      setMessage('warning', `Przekroczono ${MAX_TASK_LENGTH} znaków!`);
     } else {
       setTextForm(value);
       changeHeightTextArea(e);

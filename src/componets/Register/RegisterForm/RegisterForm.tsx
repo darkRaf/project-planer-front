@@ -5,7 +5,7 @@ import { Button } from '../../Commpare/Button/Button';
 import { LoginInput } from '../../Commpare/LoginInput/LoginInput';
 
 export const RegisterForm = () => {
-  const { onRegister, error } = useContext(UserContext);
+  const { onRegister, message } = useContext(UserContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const [loginForm, setLoginFrom] = useState({
@@ -23,7 +23,7 @@ export const RegisterForm = () => {
       password: '',
       confirmPassword: '',
     }));
-  }, [error]);
+  }, [message.message]);
 
   const changeLoginForm = (key: string, val: string) => {
     setLoginFrom((prev) => ({
@@ -40,7 +40,7 @@ export const RegisterForm = () => {
 
   return (
     <form className="form" onSubmit={sendForm}>
-      {error !== '' ? <p className="error-box">{error}</p> : null}
+      {message.message !== '' ? <p className="error-box">{message.message}</p> : null}
       <LoginInput
         id="email"
         type="text"
