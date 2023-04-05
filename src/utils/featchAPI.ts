@@ -5,12 +5,16 @@ type FetchMethod = 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT' | undefined;
 
 class FetchApi {
   private host: string;
-  private ednpoint: string | null;
   private method: FetchMethod;
+  private ednpoint: string | null;
   private headers: Headers;
   private body: string | null;
   private settings: RequestInit | undefined;
   private token: string | null;
+  private temp: {
+    ednpoint: string | null;
+    settings: RequestInit | undefined;
+  }
 
   constructor() {
     this.host = HOST;
@@ -18,6 +22,10 @@ class FetchApi {
     this.body = null;
     this.ednpoint = null;
     this.token = null;
+    this.temp =  {
+      ednpoint: null,
+      settings: undefined,
+    };
   }
 
   private setHeaders = (): void => {
@@ -41,6 +49,21 @@ class FetchApi {
     const url = `${this.host}${this.ednpoint}`;
     const res = await fetch(url, this.settings);
     const contentType = res.headers.get("content-type");
+
+    if (res.status === 403) {
+      this.temp.ednpoint = JSON.parse(JSON.stringify(this.ednpoint));
+      this.temp.settings = JSON.parse(JSON.stringify(this.settings));
+
+      const { accessToken } = await this.refreshToken();
+      this.setToken(accessToken);
+
+      console.log('temp:', this.temp);
+      this.ednpoint = this.temp.ednpoint;
+      this.method = this.temp.settings?.method as FetchMethod;
+      this.body = this.temp.settings?.body as string | null;
+
+      return await this.fetch<T>();
+    }
 
     if (res.ok) {
       this.settings = undefined;
@@ -71,12 +94,14 @@ class FetchApi {
   };
 
   get = async <T>(endpoint: string): Promise<T | undefined> => {
+    this.body = null;
     this.method = 'GET';
     this.ednpoint = endpoint;
     return await this.fetch<T>();
   };
 
   post = async <T>(endpoint: string, body: Object | null = null): Promise<T | undefined> => {
+    console.log('endpoint: ', endpoint)
     this.method = 'POST';
     this.ednpoint = endpoint;
     this.body = (body) ? JSON.stringify(body) : null;
