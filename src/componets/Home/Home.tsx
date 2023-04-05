@@ -9,14 +9,13 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { EditTask } from './Main/EditTask/EditTask';
 import { NewProject } from './Main/NewProject/NewProject';
 import { Card } from './Main/Card/Card';
+import { HeaderSettings } from './Main/HeaderSettings/HeaderSettings';
 
 import './Home.css';
-import { HeaderSettings } from './Main/HeaderSettings/HeaderSettings';
 
 const Home = () => {
   const { message, setMessage } = useContext(UserContext);
-  const { cards, id, title, showModalEditTask, showMenuNewProject, newPosition, showModal } =
-    useContext(ProjectContext);
+  const { cards, id, title, newPosition, showModal } = useContext(ProjectContext);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -62,8 +61,8 @@ const Home = () => {
           {message.message}
         </Alert>
       </Snackbar>
-      {showModalEditTask && <EditTask />}
-      {showMenuNewProject && <NewProject />}
+      {showModal === ModalTypes.EditTask && <EditTask />}
+      {showModal === ModalTypes.NewProject && <NewProject />}
       {showModal === ModalTypes.UserMenu && <HeaderSettings />}
     </Container>
   );

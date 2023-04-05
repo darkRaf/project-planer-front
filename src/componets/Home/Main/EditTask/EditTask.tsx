@@ -12,7 +12,7 @@ import './EditTask.css';
 
 export const EditTask = () => {
   const { setMessage } = useContext(UserContext);
-  const { showModalEditTask, setShowModalEditTask, changeTaskBody } = useContext(ProjectContext);
+  const { IdEditTask, setIdEditTask, changeTaskBody } = useContext(ProjectContext);
 
   const [showContainer, setShowContainer] = useState(false);
   const [loader, setLoader] = useState(true);
@@ -30,11 +30,11 @@ export const EditTask = () => {
   }, []);
 
   const getTask = async () => {
-    const task = await fetchApi.get<TaskEntity>(`/task/${showModalEditTask}`);
+    const task = await fetchApi.get<TaskEntity>(`/task/${IdEditTask}`);
 
     if (!task) {
       setMessage('error', 'Błąd pobierania danych.');
-      setShowModalEditTask('');
+      setIdEditTask('');
       return;
     }
 

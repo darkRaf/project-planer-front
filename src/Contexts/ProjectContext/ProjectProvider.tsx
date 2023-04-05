@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useContext, useEffect, useState } from 'react';
-import { defaultProject, ProjectContext } from './ProjectContext';
+import { defaultProject, ModalTypes, ProjectContext } from './ProjectContext';
 import {
   AllProjectsResponse,
   CardResponse,
@@ -18,12 +18,13 @@ type ProjectProviderProps = {
 };
 
 export const ProjectProvider = ({ children }: ProjectProviderProps) => {
-  const { setErrorHandle, updateUserSettings, settings } = useContext(UserContext);
+  const { updateUserSettings, settings, setMessage } = useContext(UserContext);
 
   const [project, setProject] = useState(defaultProject);
   const [isReady, setIsReady] = useState(true);
-  const [showModalEditTask, setShowModalEditTask] = useState('');
+  const [IdEditTask, setIdEditTask] = useState('');
   const [showMenuNewProject, setShowMenuNewProject] = useState(false);
+  const [showModal, setShowModal] = useState(ModalTypes.None);
 
   useEffect(() => {
     if (isReady) {
@@ -43,7 +44,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
       await getAllProjects();
       await getProject(settingsRes.activeIdProject);
     } catch (err) {
-      setErrorHandle(err);
+      setMessage('error', err);
     }
   }, []);
 
@@ -53,6 +54,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
       console.log('setCard', cartRes);
 
       if (!cartRes) return;
+      setMessage('success', 'Nowa karta zapisana.');
 
       setProject(
         produce((draft) => {
@@ -60,7 +62,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
         }),
       );
     } catch (err) {
-      setErrorHandle(err);
+      setMessage('error', err);
     }
   }, []);
 
@@ -70,6 +72,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
       console.log('setTask', taskRes);
 
       if (!taskRes) return;
+      setMessage('success', 'Nowe zadanie zapisane.');
 
       setProject(
         produce((draft) => {
@@ -79,7 +82,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
         }),
       );
     } catch (err) {
-      setErrorHandle(err);
+      setMessage('error', err);
     }
   }, []);
 
@@ -89,6 +92,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
       console.log('changeCardTitle:', res);
 
       if (!res) return;
+      setMessage('success', 'Nazwa karty zmieniona.');
 
       setProject(
         produce((draft) => {
@@ -97,7 +101,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
         }),
       );
     } catch (err) {
-      setErrorHandle(err);
+      setMessage('error', err);
     }
   }, []);
 
@@ -108,6 +112,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
       const res = await fetchApi.put<{ status: string }>(`/task/${taskObj.id}`, taskObj);
 
       if (!res) return;
+      setMessage('success', 'Nowe dane zapisane.');
       console.log('changeTaskBody:', res);
 
       setProject(
@@ -134,9 +139,10 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
         }),
       );
 
-      setShowModalEditTask('');
+      setIdEditTask('');
+      setShowModal(ModalTypes.None);
     } catch (err) {
-      setErrorHandle(err);
+      setMessage('error', err);
     }
   }, []);
 
@@ -147,9 +153,9 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
 
       await getProject(settings.activeIdProject);
 
-      setShowModalEditTask('');
+      setIdEditTask('');
     } catch (err) {
-      setErrorHandle(err);
+      setMessage('error', err);
     }
   }, []);
 
@@ -160,7 +166,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
 
       myProjectsList && setProject((prev) => ({ ...prev, myProjectsList }));
     } catch (err) {
-      setErrorHandle(err);
+      setMessage('error', err);
     }
   }, []);
 
@@ -193,7 +199,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
 
       settingsRes && updateUserSettings(settingsRes);
     } catch (err) {
-      setErrorHandle(err);
+      setMessage('error', err);
     }
   }, []);
 
@@ -219,7 +225,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
           startCard?.tasks.splice(source.index, 1);
           startCard?.tasksId.splice(source.index, 1);
           newStartTaskList = JSON.parse(JSON.stringify(startCard?.tasksId));
-          
+
           finishCard?.tasks.splice(destination.index, 0, newTask);
           finishCard?.tasksId.splice(destination.index, 0, draggableId);
           newFinisTaskList = JSON.parse(JSON.stringify(finishCard?.tasksId));
@@ -236,7 +242,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
         await fetchApi.put(`/card/${destination.droppableId}`, { tasksId: newFinisTaskList });
       }
     } catch (err) {
-      setErrorHandle(err);
+      setMessage('error', err);
     }
   };
 
@@ -247,14 +253,16 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     changeCardTitle,
     setTask,
     changeTaskBody,
-    showModalEditTask,
-    setShowModalEditTask,
+    IdEditTask,
+    setIdEditTask,
     showMenuNewProject,
     setShowMenuNewProject,
     deleteTask,
     getAllProjects,
     getProject,
     newPosition,
+    showModal,
+    setShowModal,
   };
 
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>;

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Priorities, TaskBodyEntity } from 'types';
 import { Label } from './Label/Label';
-import { ProjectContext } from '../../../../../Contexts/ProjectContext/ProjectContext';
+import { ProjectContext, ModalTypes } from '../../../../../Contexts/ProjectContext/ProjectContext';
 import DriveFileRenameOutlineRoundedIcon from '@mui/icons-material/DriveFileRenameOutlineRounded';
 import SubjectRoundedIcon from '@mui/icons-material/SubjectRounded';
 import { Draggable } from 'react-beautiful-dnd';
@@ -20,13 +20,18 @@ type TaskProps = {
 type newProvidedStyles = {
   top: number | undefined;
   left: number | undefined;
-}
+};
 
 export const Task = (props: TaskProps) => {
-  const { setShowModalEditTask } = useContext(ProjectContext);
+  const { setIdEditTask, setShowModal } = useContext(ProjectContext);
+
+  const showEditTask = () => {
+    setIdEditTask(props.id as string);
+    setShowModal(ModalTypes.EditTask);
+  };
 
   return (
-    <Draggable draggableId={props.id as string } index={props.index}>
+    <Draggable draggableId={props.id as string} index={props.index}>
       {(provided, snapshot) => {
         if (snapshot.isDragging) {
           const style = provided.draggableProps.style as newProvidedStyles;
@@ -41,7 +46,7 @@ export const Task = (props: TaskProps) => {
             id={props.id}
             className="task"
           >
-            <div className="task-pen" onClick={() => setShowModalEditTask(props.id as string)}>
+            <div className="task-pen" onClick={showEditTask}>
               <DriveFileRenameOutlineRoundedIcon />
             </div>
             <Label labels={props.labels} />

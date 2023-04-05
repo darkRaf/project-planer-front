@@ -1,6 +1,6 @@
 import React, { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { UserContext } from '../../../../Contexts/UserContext/UserContext';
-import { ProjectContext } from '../../../../Contexts/ProjectContext/ProjectContext';
+import { ModalTypes, ProjectContext } from '../../../../Contexts/ProjectContext/ProjectContext';
 import { Loader } from '../../../Commpare/Loader/Loader';
 import { checkClickOutSide } from '../../../../utils/checkClickOutSide';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
@@ -9,7 +9,7 @@ import './NewProject.css';
 
 export const NewProject = () => {
   const { setMessage } = useContext(UserContext);
-  const { showMenuNewProject, setShowMenuNewProject, setNewProject } = useContext(ProjectContext);
+  const { showModal, setShowModal, setNewProject } = useContext(ProjectContext);
 
   const [addClass, setaddClass] = useState('');
   const [loader, setLoader] = useState(true);
@@ -30,7 +30,7 @@ export const NewProject = () => {
       setLoader(false);
     }, 1000);
 
-    if (showMenuNewProject) {
+    if (showModal === ModalTypes.NewProject) {
       document.addEventListener('mousedown', onClickHandle);
     }
 
@@ -42,7 +42,7 @@ export const NewProject = () => {
   const onClickHandle = (e: globalThis.MouseEvent) => {
     if (checkClickOutSide(e, divRef)) return;
 
-    setShowMenuNewProject(false);
+    setShowModal(ModalTypes.None);
   };
 
   const onChangeHandle = (name: string, val: string) => {
@@ -51,7 +51,7 @@ export const NewProject = () => {
 
   const onCloseHandle = () => {
     setLoader(false);
-    setShowMenuNewProject(false);
+    setShowModal(ModalTypes.None);
   };
 
   const onSubmitHandle = (e: FormEvent<HTMLFormElement>) => {

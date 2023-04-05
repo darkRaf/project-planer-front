@@ -1,4 +1,4 @@
-import React, { useContext, MouseEvent } from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from '../../../../../../Contexts/UserContext/UserContext';
 import { ProjectContext } from '../../../../../../Contexts/ProjectContext/ProjectContext';
 
