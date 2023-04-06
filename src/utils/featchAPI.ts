@@ -6,13 +6,14 @@ type FetchMethod = 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT' | undefined;
 class FetchApi {
   private host: string;
   private method: FetchMethod;
-  private ednpoint: string | null;
+  private endpoint: string | null;
   private headers: Headers;
   private body: string | null;
   private settings: RequestInit | undefined;
   private token: string | null;
+  private isRefresh: boolean;
   private temp: {
-    ednpoint: string | null;
+    endpoint: string | null;
     settings: RequestInit | undefined;
   }
 
@@ -20,10 +21,11 @@ class FetchApi {
     this.host = HOST;
     this.headers = new Headers({ 'Content-Type': 'application/json' });
     this.body = null;
-    this.ednpoint = null;
+    this.endpoint = null;
     this.token = null;
+    this.isRefresh = false;
     this.temp =  {
-      ednpoint: null,
+      endpoint: null,
       settings: undefined,
     };
   }
@@ -46,21 +48,26 @@ class FetchApi {
     this.setHeaders();
     this.setSettings();
 
-    const url = `${this.host}${this.ednpoint}`;
+    const url = `${this.host}${this.endpoint}`;
     const res = await fetch(url, this.settings);
     const contentType = res.headers.get("content-type");
 
-    if (res.status === 403) {
-      this.temp.ednpoint = JSON.parse(JSON.stringify(this.ednpoint));
+    if ([401, 403].includes(res.status) && !this.isRefresh) {
+      this.isRefresh = true;
+      this.temp.endpoint = JSON.parse(JSON.stringify(this.endpoint));
       this.temp.settings = JSON.parse(JSON.stringify(this.settings));
 
       const { accessToken } = await this.refreshToken();
-      this.setToken(accessToken);
+      if (!accessToken) throw new Error('Dostęp zabroniony.');
 
-      console.log('temp:', this.temp);
-      this.ednpoint = this.temp.ednpoint;
+      this.setToken(accessToken);
+      this.endpoint = this.temp.endpoint;
       this.method = this.temp.settings?.method as FetchMethod;
       this.body = this.temp.settings?.body as string | null;
+      
+      this.isRefresh = false;
+      this.temp.endpoint = null;
+      this.temp.settings = undefined;
 
       return await this.fetch<T>();
     }
@@ -96,27 +103,26 @@ class FetchApi {
   get = async <T>(endpoint: string): Promise<T | undefined> => {
     this.body = null;
     this.method = 'GET';
-    this.ednpoint = endpoint;
+    this.endpoint = endpoint;
     return await this.fetch<T>();
   };
 
   post = async <T>(endpoint: string, body: Object | null = null): Promise<T | undefined> => {
-    console.log('endpoint: ', endpoint)
     this.method = 'POST';
-    this.ednpoint = endpoint;
+    this.endpoint = endpoint;
     this.body = (body) ? JSON.stringify(body) : null;
     return await this.fetch<T>();
   };
 
   delete = async <T>(endpoint: string): Promise<T | undefined> => {
     this.method = 'DELETE';
-    this.ednpoint = endpoint;
+    this.endpoint = endpoint;
     return await this.fetch<T>();
   };
 
   put = async <T>(endpoint: string, body: Object | null = null): Promise<T | undefined> => {
     this.method = 'PUT';
-    this.ednpoint = endpoint;
+    this.endpoint = endpoint;
     this.body = (body) ? JSON.stringify(body) : null;
     return await this.fetch<T>();
   };
