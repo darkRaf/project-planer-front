@@ -36,13 +36,13 @@ export const LoginForm = () => {
     onLogin(loginForm.email, loginForm.password);
   };
 
-  if (auth) {
-    return <Navigate to="/" replace />;
-  }
+  if (auth) return <Navigate to="/" replace />;
 
   return (
     <form className="form" onSubmit={sendForm}>
-      {message.message !== '' ? <p className="error-box">{message.message}</p> : null}
+      {message.message !== '' ? (
+        <p className={`msg-box ${message.severity === 'success' ? 'success-box' : ' error-box'}`}>{message.message}</p>
+      ) : null}
       <LoginInput
         id="email"
         type="email"

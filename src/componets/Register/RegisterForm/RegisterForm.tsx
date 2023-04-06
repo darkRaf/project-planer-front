@@ -1,11 +1,14 @@
 import React, { SyntheticEvent, useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { UserContext } from '../../../Contexts/UserContext/UserContext';
 import { Button } from '../../Commpare/Button/Button';
 import { LoginInput } from '../../Commpare/LoginInput/LoginInput';
 
+import '../../Login/LoginForm/LoginForm.css';
+
+
 export const RegisterForm = () => {
-  const { onRegister, message } = useContext(UserContext);
+  const { onRegister, message, setMessage, isRegister } = useContext(UserContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const [loginForm, setLoginFrom] = useState({
@@ -25,6 +28,8 @@ export const RegisterForm = () => {
     }));
   }, [message.message]);
 
+  useEffect(()=> setMessage('info', ''), [])
+
   const changeLoginForm = (key: string, val: string) => {
     setLoginFrom((prev) => ({
       ...loginForm,
@@ -32,11 +37,14 @@ export const RegisterForm = () => {
     }));
   };
 
-  const sendForm = (e: SyntheticEvent) => {
+  const sendForm = async (e: SyntheticEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    onRegister({...loginForm});
+    await onRegister({ ...loginForm });
+    setIsLoading(false);
   };
+
+  if (isRegister) return <Navigate to="/login" replace />;
 
   return (
     <form className="form" onSubmit={sendForm}>
@@ -82,9 +90,9 @@ export const RegisterForm = () => {
         value={loginForm.confirmPassword}
       />
       <Button name="Zarejestruj się" disabled={isLoading} />
-      <p className='signup'>
+      <p className="signup">
         Masz już konto?
-        <Link to="/login" className="link-to-register" >
+        <Link to="/login" className="link-to-register">
           Zaloguj się.
         </Link>
       </p>

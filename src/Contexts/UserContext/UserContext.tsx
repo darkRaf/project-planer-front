@@ -24,18 +24,34 @@ export type UserRegister = {
   confirmPassword: string;
 };
 
-export const defaultUser = {
+export interface UserContextEntity {
+  auth: boolean;
+  name: string;
+  lastName: string;
+  email: string;
+  settings: { avatarImg: string, activeIdProject: string, thema: string };
+  message: { severity: AlertColor, message: string };
+  isRegister: boolean | null;
+  onLogin: (email: string, password: string) => Promise<void>;
+  onRegister: (newUser: UserRegister) => Promise<void>;
+  onLogout: () => Promise<void>;
+  updateUserSettings: (settings: UserSettingsEntity) => void;
+  setMessage: (severity: AlertColor, message: Error | string | unknown) => void;
+};
+
+export const defaultUser: UserContextEntity = {
   auth: false,
   name: '',
   lastName: '',
   email: '',
   settings: { avatarImg: '', activeIdProject: '', thema: '' },
-  onLogin: (email: string, password: string) => {},
-  onRegister: (user: UserRegister) => {},
-  onLogout: () => {},
-  updateUserSettings: (settings: UserSettingsEntity) => {},
-  setMessage: (severity: AlertColor, message: Error | string | unknown) => {},
-  message: { severity: ('info') as AlertColor, message: '' },
+  message: { severity: 'info' as AlertColor, message: '' },
+  isRegister: null,
+  onLogin: async () => {},
+  onRegister: async () => {},
+  onLogout: async () => {},
+  updateUserSettings: () => {},
+  setMessage: () => {},
 };
 
 export const UserContext = createContext(defaultUser);

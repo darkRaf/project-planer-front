@@ -172,7 +172,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
 
   const getProject = useCallback(async (id: string) => {
     try {
-      if (!id) throw new Error('Brak ID projektu');
+      if (!id) throw new Error('Nie pobrano projektu.');
 
       const projectRes = await fetchApi.get<ProjectEntityResponse>(`/project/${id}`);
       console.log('3.1 getProject:', projectRes);

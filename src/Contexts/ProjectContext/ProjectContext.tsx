@@ -1,6 +1,6 @@
 import { createContext, Dispatch } from 'react';
 import { DraggableLocation } from 'react-beautiful-dnd';
-import { AllProjectsResponse, ProjectEntityResponse, ProjectResponseData, TaskEntity } from 'types';
+import { AllProjectsResponse, ProjectResponseData, TaskEntity } from 'types';
 
 export enum ModalTypes {
   None,

@@ -1,5 +1,5 @@
 .login-input {
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   width: 100%;
   color: rgb(var(--base-text-color-l));
   background-color: transparent;
@@ -12,4 +12,12 @@
 .login-label {
   display: block;
   padding-bottom: 10px;
+}
+
+
+@media (max-width: 768px) { 
+  .login-input {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+  }
 }
