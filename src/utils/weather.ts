@@ -20,9 +20,9 @@ class WeatherApi {
     this.longitude = 21.0118;
     this.temp = 0;
     this.city = '';
-    this.imgNum = 1000;
+    this.imgNum = 800;
     this.description = '';
-    this.isDay =true;
+    this.isDay = true;
 
     this.getGeo();
   }
@@ -73,9 +73,9 @@ class WeatherApi {
     if (this.imgNum >= 300 && this.imgNum <= 321) return 'drizzle.svg';
     if (this.imgNum >= 500 && this.imgNum <= 531) return 'rain.svg';
     if (this.imgNum >= 600 && this.imgNum <= 622) return 'snow.svg';
-    if (this.imgNum >= 700 && this.imgNum <= 781) return 'fog.svg';
+    if (this.imgNum >= 701 && this.imgNum <= 781) return 'fog.svg';
     if (this.imgNum === 800 && this.isDay) return 'sun.svg';
-    if (this.imgNum === 800 && !this.isDay) return 'sun.svg';
+    if (this.imgNum === 800 && !this.isDay) return 'moon.svg';
     if (this.imgNum >= 801 && this.imgNum <= 804) return 'cloud.svg';
 
     return 'question.svg';
