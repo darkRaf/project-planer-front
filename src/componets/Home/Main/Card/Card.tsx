@@ -22,6 +22,8 @@ export const Card = ({ card }: CardProps) => {
     setClickNewCard(false);
   };
 
+  if (!projectId) return null;
+
   if (card === null) {
     return (
       <div className="card">
