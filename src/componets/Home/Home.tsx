@@ -7,9 +7,9 @@ import { UserContext } from '../../Contexts/UserContext/UserContext';
 import { Alert, Snackbar } from '@mui/material';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { EditTask } from './Main/EditTask/EditTask';
-import { NewProject } from './Main/NewProject/NewProject';
 import { Card } from './Main/Card/Card';
 import { HeaderSettings } from './Main/HeaderSettings/HeaderSettings';
+import { ProjectSettings } from './Main/ProjectSettings/ProjectSettings';
 
 import './Home.css';
 
@@ -62,7 +62,8 @@ const Home = () => {
         </Alert>
       </Snackbar>
       {showModal === ModalTypes.EditTask && <EditTask />}
-      {showModal === ModalTypes.NewProject && <NewProject />}
+      {showModal === ModalTypes.NewProject && <ProjectSettings />}
+      {showModal === ModalTypes.ProjectSettings && <ProjectSettings isSettings={true} />}
       {showModal === ModalTypes.UserMenu && <HeaderSettings />}
     </Container>
   );

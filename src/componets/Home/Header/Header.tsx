@@ -26,9 +26,7 @@ export const Header = (props: HeaderProps) => {
   };
 
   const showSettinsProjectHandle = () => {
-    console.log('project settings'); // TODO: ustawienia
-
-    // setShowModal(ModalTypes.NewProject);
+    setShowModal(ModalTypes.ProjectSettings);
   };
 
   return (

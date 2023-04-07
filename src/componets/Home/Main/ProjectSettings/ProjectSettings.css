@@ -12,7 +12,7 @@
   box-shadow: var(--shadow);
   transform: translate(-50%, -50px);
   opacity: 0;
-  z-index:200;
+  z-index: 200;
   transition: all linear 0.2s;
 }
 
@@ -73,7 +73,7 @@
   border-radius: var(--radius-small);
   box-shadow: var(--shadow-card);
   cursor: pointer;
-  transition: transform linear .2s;
+  transition: transform linear 0.2s;
 }
 
 .project-img:hover {
@@ -81,7 +81,7 @@
 }
 
 .bg-active {
-  transform: scale(.85);
+  transform: scale(0.85);
   opacity: 0.6;
 }
 
@@ -92,16 +92,22 @@
   font-size: 1rem;
   font-weight: 600;
   color: rgb(var(--base-text-color-l));
-  background-color: var(--gradient-color1);
   outline: none;
   border: none;
   border-radius: var(--radius-small);
   box-shadow: var(--shadow-card);
   cursor: pointer;
-  transition: background-color linear .2s;
+  transition: scale linear 0.2s;
 }
 
 .project-settings-btn:hover {
-  color: var(--base-text-color-d);
-  background-color: var(--gradient-color2);
+  scale: 1.03;
+}
+
+.btn-send {
+  background-color: var(--gradient-color1);
+}
+
+.btn-delete {
+  background-color: var(--hight-priority);
 }
