@@ -84,7 +84,6 @@ export const ProjectSettings = ({ isSettings = false }: ProjectSettingsProps) =>
   }, []);
 
   const onClickHandle = (e: globalThis.MouseEvent) => {
-    console.log(checkClickOutSide(e, divRef));
     if (checkClickOutSide(e, divRef)) return;
 
     setShowModal(ModalTypes.None);
