@@ -13,11 +13,11 @@
   display: none;
 }
 
-.calendar-to-day {
+.calendar-today {
   display: none;
 }
 
-.aside-min .calendar-to-day {
+.aside-min .calendar-today {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -30,7 +30,7 @@
   cursor: pointer;
 }
 
-.calendar-to-day:hover {
+.calendar-today:hover {
   background-color: transparent;
 }
 
@@ -66,7 +66,7 @@
 
 .day-off {
   font-weight: 500;
-  color: rgb(59, 59, 255);
+  color: rgb(125 125 243);
 }
 
 .day-holiday {
@@ -75,10 +75,6 @@
 }
 
 .day-num {
-  /* justify-self: center;
-  align-self: center;
-  width: 100%;
-  height: 100%; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -95,4 +91,9 @@
 
 .empty {
   background-color: transparent;
+}
+
+.day-today {
+  color: rgb(255, 192, 15);
+  font-weight: 700;
 }
