@@ -6,7 +6,6 @@ import { LoginInput } from '../../Commpare/LoginInput/LoginInput';
 
 import '../../Login/LoginForm/LoginForm.css';
 
-
 export const RegisterForm = () => {
   const { onRegister, message, setMessage, isRegister } = useContext(UserContext);
 
@@ -28,7 +27,7 @@ export const RegisterForm = () => {
     }));
   }, [message.message]);
 
-  useEffect(()=> setMessage('info', ''), [])
+  useEffect(() => setMessage('info', ''), []);
 
   const changeLoginForm = (key: string, val: string) => {
     setLoginFrom((prev) => ({
@@ -48,7 +47,9 @@ export const RegisterForm = () => {
 
   return (
     <form className="form" onSubmit={sendForm}>
-      {message.message !== '' ? <p className="error-box">{message.message}</p> : null}
+      {message.message !== '' ? (
+        <p className={`msg-box ${message.severity === 'success' ? 'success-box' : ' error-box'}`}>{message.message}</p>
+      ) : null}
       <LoginInput
         id="email"
         type="text"
