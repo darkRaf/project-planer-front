@@ -34,6 +34,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     }
   }, []);
 
+  // Create new Project
   const setNewProject = useCallback(async (title: string, background: string) => {
     try {
       const settingsRes = await fetchApi.post<UserSettingsEntity>('/project', { title, background });
@@ -48,6 +49,21 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     }
   }, []);
 
+  // Delete Project
+  const deleteProject = useCallback(async (projectId: string) => {
+    if (!projectId) return;
+
+    console.log('usuń projekt', projectId);
+    const result = await fetchApi.delete<{ status: string }>(`/project/${projectId}`);
+
+    if (!result) return;
+
+    setMessage('success', 'Projekt usunięty.');
+    getAllProjects();
+    getProject(settings.activeIdProject);
+  }, []);
+
+  // Create new Card
   const setCard = useCallback(async (title: string, projectId: string) => {
     try {
       const cartRes = await fetchApi.post<CardResponse>('/card', { title, projectId });
@@ -66,6 +82,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     }
   }, []);
 
+  // Create new Task
   const setTask = useCallback(async (cardId: string, title: string) => {
     try {
       const taskRes = await fetchApi.post<TaskEntity>('/task', { title, cardId });
@@ -86,6 +103,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     }
   }, []);
 
+  // Change title of Card
   const changeCardTitle = useCallback(async (idCard: string, title: string) => {
     try {
       const res = await fetchApi.put<{ status: string }>(`/card/${idCard}`, { title });
@@ -105,6 +123,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     }
   }, []);
 
+  // Change body of Task
   const changeTaskBody = useCallback(async (taskObj: TaskEntity) => {
     try {
       if (!taskObj.id) return;
@@ -146,19 +165,24 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     }
   }, []);
 
+  // Delete Task
   const deleteTask = useCallback(async (idCart: string, idTask: string) => {
     try {
       const res = await fetchApi.delete<{ status: string }>(`/task/${idCart}/${idTask}`);
       console.log('changeTaskBody:', res);
 
+      if (res) setMessage('success', 'Zadanie usunięto.');
+
       await getProject(settings.activeIdProject);
 
       setIdEditTask('');
+      setShowModal(ModalTypes.None);
     } catch (err) {
       setMessage('error', err);
     }
   }, []);
 
+  // Get list Projects
   const getAllProjects = useCallback(async () => {
     try {
       const myProjectsList = await fetchApi.get<AllProjectsResponse[]>('/project');
@@ -170,6 +194,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     }
   }, []);
 
+  // Get one Project
   const getProject = useCallback(async (id: string) => {
     try {
       if (!id) throw new Error('Nie pobrano projektu.');
@@ -203,6 +228,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
     }
   }, []);
 
+  // Move the Task to another Card or change the position of the Task
   const newPosition = async (source: DraggableLocation, destination: DraggableLocation, draggableId: string) => {
     let newStartTaskList;
     let newFinisTaskList;
@@ -249,6 +275,7 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
   const value = {
     ...project,
     setNewProject,
+    deleteProject,
     setCard,
     changeCardTitle,
     setTask,

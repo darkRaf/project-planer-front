@@ -7,11 +7,13 @@ export enum ModalTypes {
   UserMenu,
   MenuSettings,
   NewProject,
+  ProjectSettings,
   EditTask,
 }
 
 export interface ProjectContext extends ProjectResponseData {
   setNewProject: (title: string, background: string) => Promise<void>;
+  deleteProject: (projectId: string) => Promise<void>;
   setCard: (titleCard: string, id: string) => void;
   changeCardTitle: (idCard: string, titleTask: string) => void;
   setTask: (idCard: string, titleTask: string) => void;
@@ -38,6 +40,7 @@ export const defaultProject: ProjectContext = {
   cards: [],
   background: '',
   setNewProject: async () => {},
+  deleteProject: async () => {},
   setCard: () => {},
   changeCardTitle: () => {},
   setTask: () => {},
