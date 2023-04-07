@@ -28,10 +28,7 @@ export const HeaderSettings = () => {
   };
 
   const onSettingsHanlder = () => {
-    // TODO: komponent ustawienia.
-    console.log('modal ustawienia.');
-
-    setShowModal(ModalTypes.None)
+    setShowModal(ModalTypes.UserSettings)
   };
 
   return (

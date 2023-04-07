@@ -5,7 +5,7 @@ import { AllProjectsResponse, ProjectResponseData, TaskEntity } from 'types';
 export enum ModalTypes {
   None,
   UserMenu,
-  MenuSettings,
+  UserSettings,
   NewProject,
   ProjectSettings,
   EditTask,

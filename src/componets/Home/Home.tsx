@@ -12,6 +12,7 @@ import { HeaderSettings } from './Main/HeaderSettings/HeaderSettings';
 import { ProjectSettings } from './Main/ProjectSettings/ProjectSettings';
 
 import './Home.css';
+import { UserSettings } from './Main/UserSettings/UserSettings';
 
 const Home = () => {
   const { message, setMessage } = useContext(UserContext);
@@ -65,6 +66,7 @@ const Home = () => {
       {showModal === ModalTypes.NewProject && <ProjectSettings />}
       {showModal === ModalTypes.ProjectSettings && <ProjectSettings isSettings={true} />}
       {showModal === ModalTypes.UserMenu && <HeaderSettings />}
+      {showModal === ModalTypes.UserSettings && <UserSettings />}
     </Container>
   );
 };
