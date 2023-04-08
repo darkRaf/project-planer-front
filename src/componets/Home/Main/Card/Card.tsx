@@ -3,8 +3,8 @@ import { CardHeader } from './CardHeader/CardHeader';
 import { CardFooter } from './CardFooter/CardFooter';
 import { CardResponse } from 'types';
 import { ProjectContext } from '../../../../Contexts/ProjectContext/ProjectContext';
-import { Droppable } from 'react-beautiful-dnd';
 import { Task } from './Task/Task';
+import { Droppable } from 'react-beautiful-dnd';
 
 import './Card.css';
 
@@ -43,10 +43,7 @@ export const Card = ({ card }: CardProps) => {
       <CardHeader idCard={id} title={title} />
       <Droppable droppableId={id}>
         {(provided) => (
-          <div className="card-main"
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-          >
+          <div className="card-main" ref={provided.innerRef} {...provided.droppableProps}>
             {tasks.map((task, index) => (
               <Task key={task.id} {...task} index={index} />
             ))}

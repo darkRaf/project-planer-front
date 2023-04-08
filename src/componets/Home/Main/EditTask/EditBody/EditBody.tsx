@@ -1,10 +1,9 @@
 import React, { ChangeEvent, useCallback, useContext, useState } from 'react';
 import { UserContext } from '../../../../../Contexts/UserContext/UserContext';
-// import { ProjectContext } from '../../../../../Contexts/ProjectContext/ProjectContext';
-import BookRoundedIcon from '@mui/icons-material/BookRounded';
-import ArticleRoundedIcon from '@mui/icons-material/ArticleRounded';
-import { TaskBodyEntity, TaskEntity } from 'types';
 import { MAX_TASK_DESCRIPTION_LENGTH } from '../../../../../settings/settings';
+import { TaskBodyEntity, TaskEntity } from 'types';
+import ArticleRoundedIcon from '@mui/icons-material/ArticleRounded';
+import BookRoundedIcon from '@mui/icons-material/BookRounded';
 import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
 
 import './EditBody.css';

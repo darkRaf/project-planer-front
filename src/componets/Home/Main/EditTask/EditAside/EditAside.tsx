@@ -1,9 +1,9 @@
 import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { ProjectContext } from '../../../../../Contexts/ProjectContext/ProjectContext';
 import { Priorities, TaskEntity } from 'types';
+import { BtnSetLabel } from './BtnSetLabel/BtnSetLabel';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
-import { BtnSetLabel } from './BtnSetLabel/BtnSetLabel';
 
 import './EditAside.css';
 
@@ -51,7 +51,6 @@ export const EditAside = ({ taskData, changeBody }: EditAsideProps) => {
   }, []);
 
   const getCardId = () => {
-    console.log(cards);
     for (const card of cards) {
       if (card.tasksId.includes(taskId)) setCardId(card.id);
     }

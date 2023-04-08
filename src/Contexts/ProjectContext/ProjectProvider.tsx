@@ -28,10 +28,27 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
 
   useEffect(() => {
     if (isReady) {
-      getAllProjects();
-      getProject(settings.activeIdProject);
-      setIsReady(false);
+      (async () => {
+        await getAllProjects();
+        await getProject(settings.activeIdProject);
+        setIsReady(false);
+      })();
     }
+  }, []);
+
+  const setSettings = useCallback(async (key: string, val: string) => {
+    const settings: UserSettingsRequest = {
+      settings: {
+        activeIdProject: '',
+        thema: '',
+        [key]: val,
+      },
+    };
+
+    await fetchApi.put(`/user`, settings);
+    const settingsRes = await fetchApi.get<UserSettingsEntity>(`/user`);
+
+    if (settingsRes) updateUserSettings(settingsRes);
   }, []);
 
   // Create new Project
@@ -53,21 +70,34 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
   const deleteProject = useCallback(async (projectId: string) => {
     if (!projectId) return;
 
-    console.log('usuń projekt', projectId);
     const result = await fetchApi.delete<{ status: string }>(`/project/${projectId}`);
 
-    if (!result) return;
+    if (!result) setMessage('error', 'Błąd podczas usuwania projektu.');
+
+    await getAllProjects();
+    const settingsRes = await fetchApi.get<UserSettingsEntity>(`/user`);
+    if (settingsRes) updateUserSettings(settingsRes);
+    if (settingsRes?.activeIdProject === '') {
+      setProject(
+        produce((draft) => {
+          draft.title = '';
+          draft.background = '';
+          draft.id = '';
+          draft.cardsId = [];
+          draft.cards = [];
+        }),
+      );
+    } else {
+      await getProject(settingsRes?.activeIdProject as string);
+    }
 
     setMessage('success', 'Projekt usunięty.');
-    getAllProjects();
-    getProject(settings.activeIdProject);
   }, []);
 
   // Create new Card
   const setCard = useCallback(async (title: string, projectId: string) => {
     try {
       const cartRes = await fetchApi.post<CardResponse>('/card', { title, projectId });
-      console.log('setCard', cartRes);
 
       if (!cartRes) return;
       setMessage('success', 'Nowa karta zapisana.');
@@ -86,7 +116,6 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
   const setTask = useCallback(async (cardId: string, title: string) => {
     try {
       const taskRes = await fetchApi.post<TaskEntity>('/task', { title, cardId });
-      console.log('setTask', taskRes);
 
       if (!taskRes) return;
       setMessage('success', 'Nowe zadanie zapisane.');
@@ -107,7 +136,6 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
   const changeCardTitle = useCallback(async (idCard: string, title: string) => {
     try {
       const res = await fetchApi.put<{ status: string }>(`/card/${idCard}`, { title });
-      console.log('changeCardTitle:', res);
 
       if (!res) return;
       setMessage('success', 'Nazwa karty zmieniona.');
@@ -132,7 +160,6 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
 
       if (!res) return;
       setMessage('success', 'Nowe dane zapisane.');
-      console.log('changeTaskBody:', res);
 
       setProject(
         produce((draft) => {
@@ -169,7 +196,6 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
   const deleteTask = useCallback(async (idCart: string, idTask: string) => {
     try {
       const res = await fetchApi.delete<{ status: string }>(`/task/${idCart}/${idTask}`);
-      console.log('changeTaskBody:', res);
 
       if (res) setMessage('success', 'Zadanie usunięto.');
 
@@ -186,9 +212,11 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
   const getAllProjects = useCallback(async () => {
     try {
       const myProjectsList = await fetchApi.get<AllProjectsResponse[]>('/project');
-      console.log('2.1 getAllProjects:', myProjectsList);
 
-      myProjectsList && setProject((prev) => ({ ...prev, myProjectsList }));
+      if (myProjectsList) setProject((prev) => ({ ...prev, myProjectsList }));
+      if (!myProjectsList) {
+        setProject((prev) => ({ ...prev, myProjectsList: [] }));
+      }
     } catch (err) {
       setMessage('error', err);
     }
@@ -197,12 +225,11 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
   // Get one Project
   const getProject = useCallback(async (id: string) => {
     try {
-      if (!id) throw new Error('Nie pobrano projektu.');
+      if (!id) throw new Error('Brak ID projektu.');
 
       const projectRes = await fetchApi.get<ProjectEntityResponse>(`/project/${id}`);
-      console.log('3.1 getProject:', projectRes);
 
-      projectRes &&
+      if (projectRes) {
         setProject(
           produce((draft) => {
             draft.title = projectRes.title;
@@ -212,17 +239,9 @@ export const ProjectProvider = ({ children }: ProjectProviderProps) => {
             draft.cards = projectRes.cards;
           }),
         );
+      }
 
-      const settings: UserSettingsRequest = {
-        settings: {
-          activeIdProject: id,
-        },
-      };
-
-      await fetchApi.put(`/user`, settings);
-      const settingsRes = await fetchApi.get<UserSettingsEntity>(`/user`);
-
-      settingsRes && updateUserSettings(settingsRes);
+      setSettings('activeIdProject', id);
     } catch (err) {
       setMessage('error', err);
     }

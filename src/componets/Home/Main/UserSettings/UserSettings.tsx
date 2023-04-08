@@ -3,16 +3,14 @@ import { UserContext } from '../../../../Contexts/UserContext/UserContext';
 import { ModalTypes, ProjectContext } from '../../../../Contexts/ProjectContext/ProjectContext';
 import { Loader } from '../../../Commpare/Loader/Loader';
 import { checkClickOutSide } from '../../../../utils/checkClickOutSide';
+import { MAX_USER_LASTNAME, MAX_USER_NAME, MAX_USER_PASSWORD } from '../../../../settings/settings';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 import './UserSettings.css';
-import { MAX_USER_LASTNAME, MAX_USER_NAME, MAX_USER_PASSWORD } from '../../../../settings/settings';
-import { profile } from 'console';
 
 export const UserSettings = () => {
   const { setMessage, settings, name, lastName } = useContext(UserContext);
   const { showModal, setShowModal } = useContext(ProjectContext);
-
   const [addClass, setaddClass] = useState('');
   const [loader, setLoader] = useState(true);
   const [imgData, setImgData] = useState<string[]>([]);

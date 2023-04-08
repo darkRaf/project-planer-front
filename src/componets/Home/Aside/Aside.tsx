@@ -25,7 +25,9 @@ export const Aside = () => {
       <AsideSection>
         <div className="aside-row">
           <AccountBoxRoundedIcon sx={{ fontSize: 35 }} />
-          <span className="aside-text">{name} {lastName}</span>
+          <span className="aside-text">
+            {name} {lastName}
+          </span>
         </div>
       </AsideSection>
 

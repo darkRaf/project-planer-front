@@ -29,15 +29,15 @@ export interface UserContextEntity {
   name: string;
   lastName: string;
   email: string;
-  settings: { avatarImg: string, activeIdProject: string, thema: string };
-  message: { severity: AlertColor, message: string };
+  settings: { avatarImg: string; activeIdProject: string; thema: string };
+  message: { severity: AlertColor; message: string };
   isRegister: boolean | null;
   onLogin: (email: string, password: string) => Promise<void>;
   onRegister: (newUser: UserRegister) => Promise<void>;
   onLogout: () => Promise<void>;
   updateUserSettings: (settings: UserSettingsEntity) => void;
   setMessage: (severity: AlertColor, message: Error | string | unknown) => void;
-};
+}
 
 export const defaultUser: UserContextEntity = {
   auth: false,

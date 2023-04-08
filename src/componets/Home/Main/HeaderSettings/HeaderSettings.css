@@ -3,7 +3,7 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  width: 230px; 
+  width: 230px;
   top: 20px;
   right: 10px;
   padding: 10px;
@@ -12,7 +12,7 @@
   border-radius: var(--radius-medium);
   box-shadow: var(--shadow);
   opacity: 0;
-  transition: all linear .3s;
+  transition: all linear 0.3s;
   cursor: default;
   z-index: 1000;
 }
@@ -33,7 +33,7 @@
   padding: 10px;
   width: 100%;
   border-radius: var(--radius-small);
-  transition: all linear .3s;
+  transition: all linear 0.3s;
   cursor: pointer;
 }
 

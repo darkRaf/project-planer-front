@@ -16,7 +16,6 @@
   border-radius: var(--radius-small);
   box-shadow: var(--shadow);
   font-size: 1rem;
-
   opacity: 0;
   transform: translateX(-150px);
   z-index: 10;

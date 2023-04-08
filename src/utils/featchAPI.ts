@@ -24,7 +24,7 @@ class FetchApi {
     this.endpoint = null;
     this.token = null;
     this.isRefresh = false;
-    this.temp =  {
+    this.temp = {
       endpoint: null,
       settings: undefined,
     };
@@ -64,7 +64,7 @@ class FetchApi {
       this.endpoint = this.temp.endpoint;
       this.method = this.temp.settings?.method as FetchMethod;
       this.body = this.temp.settings?.body as string | null;
-      
+
       this.isRefresh = false;
       this.temp.endpoint = null;
       this.temp.settings = undefined;

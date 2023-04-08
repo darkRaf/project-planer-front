@@ -24,11 +24,11 @@ export const HeaderSettings = () => {
   const onClickHandle = (e: globalThis.MouseEvent) => {
     if (checkClickOutSide(e, divRef)) return;
 
-    setShowModal(ModalTypes.None)
+    setShowModal(ModalTypes.None);
   };
 
   const onSettingsHanlder = () => {
-    setShowModal(ModalTypes.UserSettings)
+    setShowModal(ModalTypes.UserSettings);
   };
 
   return (

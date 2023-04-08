@@ -3,7 +3,7 @@ import React, { CSSProperties, ReactNode } from 'react';
 import './LoginContainer.css';
 
 type LoginContainerProps = {
-  children: ReactNode; 
+  children: ReactNode;
 };
 
 export const LoginContainer = ({ children }: LoginContainerProps) => {

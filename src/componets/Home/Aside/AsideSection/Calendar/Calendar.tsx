@@ -54,10 +54,11 @@ export const Calendar = () => {
         {days.map((day, index) => {
           const dayClass = day[1] ? 'day-num day-today' : 'day-num';
           return (
-          <div key={`${day}-${index}`} className={day[0] ? dayClass : 'empty'}>
-            {day[0]}
-          </div>
-        )})}
+            <div key={`${day}-${index}`} className={day[0] ? dayClass : 'empty'}>
+              {day[0]}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

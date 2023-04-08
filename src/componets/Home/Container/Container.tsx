@@ -9,7 +9,7 @@ type ContainerProps = {
 
 export const Container = ({ children }: ContainerProps) => {
   const { background } = useContext(ProjectContext);
-  
+
   const urlBgImage = `./images/backgrounds/${background}`;
 
   const styles: CSSProperties = {

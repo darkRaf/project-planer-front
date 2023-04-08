@@ -3,8 +3,8 @@ import { UserContext } from '../../../../Contexts/UserContext/UserContext';
 import { ModalTypes, ProjectContext } from '../../../../Contexts/ProjectContext/ProjectContext';
 import { Loader } from '../../../Commpare/Loader/Loader';
 import { checkClickOutSide } from '../../../../utils/checkClickOutSide';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { MAX_PROJECT_TITLE_LENGTH } from '../../../../settings/settings';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 import './ProjectSettings.css';
 
@@ -53,7 +53,7 @@ export const ProjectSettings = ({ isSettings = false }: ProjectSettingsProps) =>
   const { showModal, setShowModal, setNewProject, background, title, deleteProject, id } = useContext(ProjectContext);
 
   const [addClass, setaddClass] = useState('');
-  const [projectType, setProjectType] = useState<keyof ProjectData>(isSettings ? 'Projectsettings' : 'newProject');
+  const [projectType] = useState<keyof ProjectData>(isSettings ? 'Projectsettings' : 'newProject');
   const [loader, setLoader] = useState(true);
   const [imgData, setImgData] = useState<string[]>([]);
   const [formProject, setFormProject] = useState({
@@ -112,7 +112,11 @@ export const ProjectSettings = ({ isSettings = false }: ProjectSettingsProps) =>
       return;
     }
 
-    isSettings ? console.log('zmien projekt') : setNewProject(formProject.title, formProject.background);
+    if (isSettings) {
+      setMessage('warning', 'Ustawienia jeszcze w budowie.');
+    } else {
+      setNewProject(formProject.title, formProject.background);
+    }
     onCloseHandle();
   };
 

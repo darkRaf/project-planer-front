@@ -112,8 +112,3 @@
 .btn-detele {
   background-color: var(--hight-priority);
 }
-
-.btn-delete:hover {
-  color: var(--base-text-color-d);
-  background-color: var(--gradient-color2);
-}

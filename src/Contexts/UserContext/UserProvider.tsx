@@ -1,6 +1,5 @@
 import { ReactNode, useEffect } from 'react';
 import { useState } from 'react';
-import { Navigate, NavigateProps } from 'react-router-dom';
 import { fetchApi } from '../../utils/featchAPI';
 import { LoginResponse, RegisterResponse, UserSettingsEntity } from 'types';
 import { User, defaultUser, UserContext, UserRegister } from './UserContext';
@@ -97,8 +96,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       document.body.style.cursor = 'wait';
 
       const result = (await fetchApi.post('/register', { ...newUser })) as RegisterResponse;
-      console.log(result);
-      
 
       if (result) {
         setUser((prev) => ({

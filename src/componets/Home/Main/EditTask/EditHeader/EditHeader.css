@@ -25,7 +25,6 @@
   color: red;
   background-color: transparent;
   border-radius: var(--radius-small);
-
   transition: background-color linear 0.2s, color linear 0.2s;
 }
 

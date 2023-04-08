@@ -19,7 +19,6 @@
   color: rgb(var(--base-text-color-d));
   font-size: 1.2rem;
   z-index: 101;
-
   opacity: 0;
   transform: translateX(-50%) scale(0.9);
   transition: all linear 0.15s;

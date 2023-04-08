@@ -22,7 +22,7 @@ export const Weather = () => {
     setCity(weatherApi.getCity());
     setPicture(weatherApi.getImgName());
     setDescription(weatherApi.getDescription());
-  }
+  };
 
   return (
     <>
@@ -35,7 +35,7 @@ export const Weather = () => {
             </div>
             <div className="weather-city">{city}</div>
           </div>
-          <p className='weather-description'>{description}</p>
+          <p className="weather-description">{description}</p>
         </div>
       </div>
     </>
