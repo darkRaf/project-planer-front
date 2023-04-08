@@ -1,0 +1,83 @@
+{
+  "id": "ajsdhf875asdjhf",
+  "userId": "aljfh98hjva435",
+  "title": "Mój pierwszy projekt",
+  "cardsId": ["c1", "c2", "c3"],
+  "cards": [
+    {
+      "id": "c1",
+      "title": "Karta 1",
+      "tasksId": ["c1t1", "c1t2", "c1t3"],
+      "tasks": [
+        {
+          "id": "c1t1",
+          "title": "Karta 1",
+          "labels": ["high", "low"],
+          "addedAt": "",
+          "body": {
+            "description": "",
+            "deadline": "",
+            "checkList": []
+          }
+        },
+        {
+          "id": "c1t2",
+          "title": "Karta 2",
+          "labels": ["medium"],
+          "addedAt": "",
+          "body": {
+            "description": "",
+            "deadline": "",
+            "checkList": []
+          }
+        },
+        {
+          "id": "c1t3",
+          "title": "Karta 3",
+          "labels": ["low"],
+          "addedAt": "",
+          "body": {
+            "description": "",
+            "deadline": "",
+            "checkList": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "c2",
+      "title": "Karta 2",
+      "tasksId": ["c2t1", "c2t2"],
+      "tasks": [
+        {
+          "id": "c2t1",
+          "title": "Karta 1",
+          "labels": ["medium"],
+          "addedAt": "",
+          "body": {
+            "description": "",
+            "deadline": "",
+            "checkList": []
+          }
+        },
+        {
+          "id": "c2t2",
+          "title": "Karta 2",
+          "labels": ["undefined"],
+          "addedAt": "",
+          "body": {
+            "description": "",
+            "deadline": "",
+            "checkList": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "c3",
+      "title": "Karta 3",
+      "tasksId": [],
+      "tasks": []
+    }
+  ]
+}

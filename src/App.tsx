@@ -12,6 +12,9 @@ const Login = React.lazy(() => import('./componets/Login/Login'));
 const Register = React.lazy(() => import('./componets/Register/Register'));
 
 export const App = () => {
+  const [user, setUser] = useState({auth: false, name: ''})
+  const tableData = data as ProjectEntity;
+
   return (
     <UserProvider>
       <BrowserRouter>
