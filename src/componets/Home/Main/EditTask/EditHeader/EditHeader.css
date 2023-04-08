@@ -11,6 +11,7 @@
   width: calc(100% - 40px);
   font-size: 1.2rem;
   font-weight: 700;
+  cursor: text;
 }
 
 .edit-task-clouse-box {
@@ -26,9 +27,13 @@
   background-color: transparent;
   border-radius: var(--radius-small);
   transition: background-color linear 0.2s, color linear 0.2s;
+  z-index: 10;
 }
 
 .edit-task-clouse-box:hover {
   color: var(--bg-color-task-hover);
   background-color: red;
+}
+.card-input {
+  width: calc(100% - 40px);
 }

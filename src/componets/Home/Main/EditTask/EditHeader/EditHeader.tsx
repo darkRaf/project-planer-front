@@ -16,7 +16,7 @@ type EditHeaderProps = {
 
 export const EditHeader = ({ title, changeData }: EditHeaderProps) => {
   const { setMessage } = useContext(UserContext);
-  const { setIdEditTask, setShowModal } = useContext(ProjectContext);
+  const { setShowModal } = useContext(ProjectContext);
 
   const [titleTask, setTitleTask] = useState('');
   const [showForm, setShowForm] = useState(false);
@@ -71,15 +71,15 @@ export const EditHeader = ({ title, changeData }: EditHeaderProps) => {
   };
 
   return (
-    <div className="edit-task-header" onClick={() => setShowModal(ModalTypes.None)}>
+    <div className="edit-task-header" onClick={() => setShowForm(true)}>
+      <div className="edit-task-clouse-box" onClick={() => setShowModal(ModalTypes.None)}>
+        <CloseRoundedIcon />
+      </div>
       {showForm ? (
         <textarea ref={areaRef} className="card-input" value={titleTask} onChange={onChangeHandle} />
       ) : (
         <h2 className="edit-title">{titleTask}</h2>
       )}
-      <div className="edit-task-clouse-box" onClick={() => setIdEditTask('')}>
-        <CloseRoundedIcon />
-      </div>
     </div>
   );
 };
