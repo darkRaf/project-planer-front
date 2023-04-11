@@ -1,9 +1,6 @@
-import { API_KEY, API_LINK } from "./../settings/settings"
+import { fetchApi } from './featchAPI'
 
 class WeatherApi {
-  private api_link: string;
-  private api_key: string;
-  private api_units: string;
   private latitude: number;
   private longitude: number;
   private temp: number;
@@ -13,9 +10,6 @@ class WeatherApi {
   private isDay: boolean;
 
   constructor() {
-    this.api_link = API_LINK;
-    this.api_key = API_KEY;
-    this.api_units = '&units=metric';
     this.latitude = 52.2298;
     this.longitude = 21.0118;
     this.temp = 0;
@@ -44,10 +38,7 @@ class WeatherApi {
   }
 
   getWeather = async (): Promise<void> => {
-    const URL = `${this.api_link}lat=${this.latitude}&lon=${this.longitude}&appid=${this.api_key}&lang=pl${this.api_units}`;
-
-    const res = await fetch(URL);
-    const data = await res.json();
+    const data = await fetchApi.get(`/weather/${this.latitude}/${this.longitude}`) as any;
     const status = Object.assign({}, ...data.weather);
 
     this.temp = data.main.temp;
