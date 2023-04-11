@@ -6,8 +6,6 @@
   padding: 0.6rem 0.4rem;
   width: 100%;
   min-height: 43px;
-  min-height: 2rem;
-
   background-color: var(--bg-color-task);
   border-radius: var(--radius-small);
   box-shadow: var(--shadow-card);
