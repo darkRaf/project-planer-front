@@ -1,4 +1,4 @@
-export const HOST = 'http://localhost:3001';
+export const HOST = process.env.REACT_APP_API_URL ?? 'http://localhost:3001/api';
 
 export const MAX_TASK_LENGTH = 250;
 export const MAX_PROJECT_TITLE_LENGTH = 50;
