@@ -2,7 +2,10 @@ import { HOST } from '../settings/settings';
 import { ErrorLoginEntity, LoginResponse } from 'types';
 
 type FetchMethod = 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT' | undefined;
-
+type FetchTemp = {
+  endpoint: string | null;
+  settings: RequestInit | undefined;
+}
 class FetchApi {
   private host: string;
   private method: FetchMethod;
@@ -12,10 +15,7 @@ class FetchApi {
   private settings: RequestInit | undefined;
   private token: string | null;
   private isRefresh: boolean;
-  private temp: {
-    endpoint: string | null;
-    settings: RequestInit | undefined;
-  }
+  private temp: FetchTemp[];
 
   constructor() {
     this.host = HOST;
@@ -24,10 +24,7 @@ class FetchApi {
     this.endpoint = null;
     this.token = null;
     this.isRefresh = false;
-    this.temp = {
-      endpoint: null,
-      settings: undefined,
-    };
+    this.temp = [];
   }
 
   private setHeaders = (): void => {
@@ -44,6 +41,15 @@ class FetchApi {
     if (this.body) this.settings.body = this.body;
   };
 
+  private addToTemp = () => {
+    const fetchData = {
+      endpoint: JSON.parse(JSON.stringify(this.endpoint)),
+      settings: JSON.parse(JSON.stringify(this.settings)),
+    } as FetchTemp;
+
+    this.temp.push(fetchData);
+  }
+
   private fetch = async <T>(): Promise<T | undefined> => {
     this.setHeaders();
     this.setSettings();
@@ -54,22 +60,24 @@ class FetchApi {
 
     if ([401, 403].includes(res.status) && !this.isRefresh) {
       this.isRefresh = true;
-      this.temp.endpoint = JSON.parse(JSON.stringify(this.endpoint));
-      this.temp.settings = JSON.parse(JSON.stringify(this.settings));
+      this.addToTemp();
 
       const { accessToken } = await this.refreshToken();
       if (!accessToken) throw new Error('Dostęp zabroniony.');
 
       this.setToken(accessToken);
-      this.endpoint = this.temp.endpoint;
-      this.method = this.temp.settings?.method as FetchMethod;
-      this.body = this.temp.settings?.body as string | null;
 
-      this.isRefresh = false;
-      this.temp.endpoint = null;
-      this.temp.settings = undefined;
+      for (const t of this.temp) {
+        this.endpoint = t.endpoint;
+        this.method = t.settings?.method as FetchMethod;
+        this.body = t.settings?.body as string | null;
+        this.isRefresh = false;
 
-      return await this.fetch<T>();
+        const index = this.temp.indexOf(t);
+        this.temp.splice(index, 1);
+
+        return await this.fetch<T>();
+      }
     }
 
     if (res.ok) {
