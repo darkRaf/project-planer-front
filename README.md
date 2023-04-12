@@ -45,6 +45,8 @@
 
 Project Planer to aplikacja webowa umożliwiająca zarządzanie zadaniami w formie kart. Program został stworzony z myślą o jednoosobowych projektach, gdzie jedna osoba jest odpowiedzialna za realizację wszystkich zadań. Aplikacja wzorowana na Trello.com
 
+Część backendową znajdziesz <a href="https://github.com/darkRaf/project-planer-back" target="_blank">tutaj.</a>
+
 ### Użyte technologie
 
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
@@ -99,7 +101,7 @@ Sklonuj repozytorium
 <!-- Clone the frontend -->
 
 ```bash
-  git clone https://github.com/darkRaf/project-planer-front
+  git clone https://github.com/darkRaf/project-planer-front.git
 ```
 
 Przejdź do folderu
