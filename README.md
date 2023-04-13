@@ -69,7 +69,7 @@ Część backendową znajdziesz <a href="https://github.com/darkRaf/project-plan
 
 ### Link do strony
 
-<a href="https://raf.networkmanager.pl/" target="_blank">www.project-planer</a>
+<a href="https://project-planer.rafal-13.smallhost.pl" target="_blank">www.project-planer</a>
 
 
 <p align="right"><<a href="#readme-top">⬆back to top</a>></p>
